@@ -1,0 +1,49 @@
+name: Create pull request
+
+on:
+  push:
+    branches:
+      - "feat/**"
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: create-pr-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  create-pull-request:
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ github.token }}
+      HEAD_BRANCH: ${{ github.ref_name }}
+      BASE_BRANCH: ${{ github.event.repository.default_branch }}
+    steps:
+      - name: Create pull request if one does not exist
+        shell: bash
+        run: |
+          existing_pr="$(
+            gh pr list \
+              --repo "$GITHUB_REPOSITORY" \
+              --head "$HEAD_BRANCH" \
+              --base "$BASE_BRANCH" \
+              --state open \
+              --json number \
+              --jq '.[0].number // empty'
+          )"
+
+          if [[ -n "$existing_pr" ]]; then
+            echo "Pull request #$existing_pr already exists."
+            exit 0
+          fi
+
+          gh pr create \
+            --repo "$GITHUB_REPOSITORY" \
+            --head "$HEAD_BRANCH" \
+            --base "$BASE_BRANCH" \
+            --title "$HEAD_BRANCH" \
+            --body "Automatically created from \`$HEAD_BRANCH\`." \
+            --assignee "$GITHUB_ACTOR"
