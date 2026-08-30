@@ -70,6 +70,9 @@ export const vars = createThemeContract({
   transition: {
     fast: null,
   },
+  height: {
+    gnb: null,
+  },
 });
 
 createGlobalTheme(":root", vars, {
@@ -142,5 +145,8 @@ createGlobalTheme(":root", vars, {
   },
   transition: {
     fast: "160ms ease",
+  },
+  height: {
+    gnb: "64px",
   },
 });

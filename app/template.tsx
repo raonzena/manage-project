@@ -4,12 +4,12 @@ import { container } from "./template.css";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
-    <main>
+    <>
       <GNB />
       <div className={container}>
         <Navigation />
-        {children}
+        <main>{children}</main>
       </div>
-    </main>
+    </>
   );
 }
