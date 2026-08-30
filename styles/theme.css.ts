@@ -6,6 +6,7 @@ export const vars = createThemeContract({
     surface: null,
     surfaceSubtle: null,
     border: null,
+    borderPrimary: null,
     textPrimary: null,
     textSecondary: null,
     textInverse: null,
@@ -73,10 +74,11 @@ export const vars = createThemeContract({
 
 createGlobalTheme(":root", vars, {
   color: {
-    canvas: "#f6f7fb",
+    canvas: "#f8f9ff",
     surface: "#ffffff",
     surfaceSubtle: "#f9fafb",
     border: "#e5e7eb",
+    borderPrimary: "#c5c6cd",
     textPrimary: "#111827",
     textSecondary: "#6b7280",
     textInverse: "#ffffff",
@@ -92,7 +94,8 @@ createGlobalTheme(":root", vars, {
     infoSubtle: "#dbeafe",
   },
   font: {
-    family: "Inter, Pretendard, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    family:
+      "Inter, Pretendard, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
     weight: {
       regular: "400",
       medium: "500",
