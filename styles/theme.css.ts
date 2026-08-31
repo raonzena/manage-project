@@ -1,11 +1,12 @@
-import { createGlobalTheme, createThemeContract } from "@vanilla-extract/css";
+import { createGlobalTheme, createGlobalThemeContract } from "@vanilla-extract/css";
 
-export const vars = createThemeContract({
+export const vars = createGlobalThemeContract({
   color: {
     canvas: null,
     surface: null,
     surfaceSubtle: null,
     border: null,
+    borderPrimary: null,
     textPrimary: null,
     textSecondary: null,
     textInverse: null,
@@ -22,6 +23,8 @@ export const vars = createThemeContract({
   },
   font: {
     family: null,
+    familyDisplay: null,
+    familyMono: null,
     weight: {
       regular: null,
       medium: null,
@@ -69,30 +72,41 @@ export const vars = createThemeContract({
   transition: {
     fast: null,
   },
-});
+  height: {
+    gnb: null,
+  },
+  width: {
+    navigation: null,
+  },
+}, (_value, path) => path.join("-").replace(/^space-/, "spacing-"));
 
 createGlobalTheme(":root", vars, {
   color: {
-    canvas: "#f6f7fb",
+    canvas: "#f4f4f3",
     surface: "#ffffff",
-    surfaceSubtle: "#f9fafb",
-    border: "#e5e7eb",
-    textPrimary: "#111827",
-    textSecondary: "#6b7280",
+    surfaceSubtle: "#f7f7f6",
+    border: "#e5e5e3",
+    borderPrimary: "#d1d1ce",
+    textPrimary: "#171717",
+    textSecondary: "#737373",
     textInverse: "#ffffff",
-    navigation: "#172033",
-    brand: "#3b82f6",
-    brandHover: "#2563eb",
-    success: "#22c55e",
-    successSubtle: "#dcfce7",
-    warning: "#f59e0b",
-    warningSubtle: "#fef3c7",
-    danger: "#ef4444",
-    dangerSubtle: "#fee2e2",
-    infoSubtle: "#dbeafe",
+    navigation: "#171717",
+    brand: "#1f8a5b",
+    brandHover: "#187149",
+    success: "#1f8a5b",
+    successSubtle: "#e8f8f0",
+    warning: "#a15c00",
+    warningSubtle: "#fff4da",
+    danger: "#b42318",
+    dangerSubtle: "#fdecec",
+    infoSubtle: "#e8f8f0",
   },
   font: {
-    family: "Inter, Pretendard, system-ui, -apple-system, BlinkMacSystemFont, sans-serif",
+    family:
+      "var(--font-inter), Pretendard, Apple SD Gothic Neo, system-ui, sans-serif",
+    familyDisplay:
+      "var(--font-inter), Pretendard, Apple SD Gothic Neo, system-ui, sans-serif",
+    familyMono: "SFMono-Regular, Consolas, Liberation Mono, monospace",
     weight: {
       regular: "400",
       medium: "500",
@@ -105,7 +119,7 @@ createGlobalTheme(":root", vars, {
       md: "1rem",
       lg: "1.25rem",
       xl: "1.5rem",
-      display: "2rem",
+      display: "2.5rem",
     },
     lineHeight: {
       tight: "1.2",
@@ -134,10 +148,16 @@ createGlobalTheme(":root", vars, {
     full: "999px",
   },
   shadow: {
-    sm: "0 1px 2px rgb(17 24 39 / 0.06)",
-    md: "0 8px 24px rgb(17 24 39 / 0.08)",
+    sm: "0 1px 2px rgb(23 23 23 / 0.06)",
+    md: "0 8px 24px rgb(23 23 23 / 0.10)",
   },
   transition: {
     fast: "160ms ease",
+  },
+  height: {
+    gnb: "56px",
+  },
+  width: {
+    navigation: "248px",
   },
 });

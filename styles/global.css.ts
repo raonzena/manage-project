@@ -7,6 +7,7 @@ globalStyle("*, *::before, *::after", {
 
 globalStyle("html", {
   background: vars.color.canvas,
+  minWidth: "320px",
 });
 
 globalStyle("body", {
@@ -19,6 +20,10 @@ globalStyle("body", {
   WebkitFontSmoothing: "antialiased",
 });
 
+globalStyle("h1, h2, h3, p, ul", { marginTop: 0 });
+
+globalStyle("ul", { padding: 0, listStyle: "none" });
+
 globalStyle("button, input, textarea, select", {
   font: "inherit",
 });
@@ -26,6 +31,8 @@ globalStyle("button, input, textarea, select", {
 globalStyle("button, a", {
   WebkitTapHighlightColor: "transparent",
 });
+
+globalStyle("button", { color: "inherit" });
 
 globalStyle("a", {
   color: "inherit",
