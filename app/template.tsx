@@ -1,6 +1,6 @@
 import { GNB } from "@/components/gnb";
 import { Navigation } from "@/components/navigation";
-import { container } from "./template.css";
+import { container, main } from "./template.css";
 
 export default function Template({ children }: { children: React.ReactNode }) {
   return (
@@ -8,7 +8,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
       <GNB />
       <div className={container}>
         <Navigation />
-        <main>{children}</main>
+        <main className={main}>{children}</main>
       </div>
     </>
   );
