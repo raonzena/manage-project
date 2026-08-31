@@ -104,15 +104,6 @@ export const projectCount = style({
 export const blue = style({ background: vars.color.brand });
 export const green = style({ background: vars.color.success });
 export const orange = style({ background: vars.color.warning });
-export const footer = style({
-  display: "flex",
-  justifyContent: "space-between",
-  marginTop: "auto",
-  padding: vars.space[2],
-  borderTop: "1px solid #292929",
-  color: vars.color.textSecondary,
-  fontSize: vars.font.size.xs,
-});
 
 export const mobileNavigation = style({
   display: "none",
