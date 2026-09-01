@@ -1,4 +1,5 @@
 import { style } from "@vanilla-extract/css";
+import { media } from "@/design-system/styles/media";
 import { vars } from "@/design-system/styles/theme.css";
 
 export const container = style({
@@ -9,5 +10,5 @@ export const container = style({
 export const main = style({
   flex: 1,
   minWidth: 0,
-  "@media": { "(max-width: 840px)": { paddingBottom: vars.space[12] } },
+  "@media": { [media.tablet]: { paddingBottom: vars.space[12] } },
 });

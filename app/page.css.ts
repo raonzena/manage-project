@@ -1,3 +1,4 @@
+import { media } from "@/design-system/styles/media";
 import { vars } from "@/design-system/styles/theme.css";
 import { style } from "@vanilla-extract/css";
 
@@ -7,8 +8,8 @@ export const container = style({
   marginInline: "auto",
   padding: `${vars.space[8]} ${vars.space[8]} ${vars.space[12]}`,
   "@media": {
-    "(max-width: 1080px)": { paddingInline: vars.space[6] },
-    "(max-width: 600px)": {
+    [media.desktop]: { paddingInline: vars.space[6] },
+    [media.mobile]: {
       padding: `${vars.space[6]} ${vars.space[4]} ${vars.space[10]}`,
     },
   },
@@ -20,7 +21,7 @@ export const pageHeader = style({
   gap: vars.space[6],
   marginBottom: vars.space[8],
   "@media": {
-    "(max-width: 600px)": {
+    [media.mobile]: {
       alignItems: "flex-start",
       flexDirection: "column",
       marginBottom: vars.space[6],
@@ -34,7 +35,7 @@ export const pageTitle = style({
   lineHeight: vars.font.lineHeight.tight,
   letterSpacing: "-0.045em",
   "@media": {
-    "(max-width: 600px)": { fontSize: "2rem", letterSpacing: "-0.04em" },
+    [media.mobile]: { fontSize: "2rem", letterSpacing: "-0.04em" },
   },
 });
 export const pageDescription = style({
@@ -50,20 +51,20 @@ export const eyebrow = style({
   letterSpacing: "0.04em",
 });
 export const reportButton = style({
-  "@media": { "(max-width: 600px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });
 export const stats = style({
   display: "grid",
   gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
   gap: vars.space[4],
   marginBottom: vars.space[6],
-  "@media": { "(max-width: 680px)": { gap: vars.space[3] } },
+  "@media": { [media.mobile]: { gap: vars.space[3] } },
 });
 export const dashboardGrid = style({
   display: "grid",
   gridTemplateColumns: "minmax(0, 1.65fr) minmax(280px, .85fr)",
   gap: vars.space[4],
-  "@media": { "(max-width: 1050px)": { gridTemplateColumns: "1fr" } },
+  "@media": { [media.desktop]: { gridTemplateColumns: "1fr" } },
 });
 export const issuePanel = style({
   overflow: "hidden",
@@ -118,7 +119,7 @@ export const issueLabels = style({
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
   textTransform: "uppercase",
-  "@media": { "(max-width: 620px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });
 export const issueList = style({ margin: 0 });
 export const issueRow = style({
@@ -134,7 +135,7 @@ export const issueRow = style({
     "&:hover": { background: vars.color.surfaceSubtle },
   },
   "@media": {
-    "(max-width: 620px)": {
+    [media.mobile]: {
       gridTemplateColumns: "1fr auto",
       paddingInline: vars.space[4],
     },
@@ -166,7 +167,7 @@ export const issueProject = style({
   fontSize: "0.6875rem",
 });
 export const mobileSecondary = style({
-  "@media": { "(max-width: 620px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });
 export const owner = style({
   display: "grid",
@@ -179,12 +180,12 @@ export const owner = style({
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
   fontWeight: vars.font.weight.bold,
-  "@media": { "(max-width: 620px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });
 export const issueDue = style({
   color: vars.color.textSecondary,
   fontSize: "0.6875rem",
-  "@media": { "(max-width: 620px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });
 export const progressMeta = style({
   display: "flex",
