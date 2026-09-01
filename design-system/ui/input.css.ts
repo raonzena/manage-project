@@ -1,5 +1,5 @@
 import { style } from "@vanilla-extract/css";
-import { vars } from "@/styles/theme.css";
+import { vars } from "@/design-system/styles/theme.css";
 
 export const field = style({
   display: "grid",
@@ -29,7 +29,10 @@ export const input = style({
       boxShadow: `0 0 0 3px ${vars.color.infoSubtle}`,
       outline: 0,
     },
-    "&:disabled": { cursor: "not-allowed", background: vars.color.surfaceSubtle },
+    "&:disabled": {
+      cursor: "not-allowed",
+      background: vars.color.surfaceSubtle,
+    },
     "&[aria-invalid='true']": { borderColor: vars.color.danger },
   },
 });
