@@ -1,4 +1,4 @@
-import { vars } from "@/styles/theme.css";
+import { vars } from "@/design-system/styles/theme.css";
 import { createTheme, createThemeContract, style } from "@vanilla-extract/css";
 
 const taskCardVars = createThemeContract({ accentColor: null });
