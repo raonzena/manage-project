@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Code Structure"
+  short_description: "Place and organize project code consistently"
+  default_prompt: "Use $project-code-structure to create or refactor these files according to the repository's ownership and module-boundary conventions."

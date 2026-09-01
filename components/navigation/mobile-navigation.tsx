@@ -2,20 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { isActiveMenu } from "./is-active-menu";
 import * as styles from "./navigation.css";
 
 const mobileMenus = [
-  { id: "overview", label: "개요", href: "/", icon: "●" },
-  { id: "my-issues", label: "내 이슈", href: "/tasks", icon: "□" },
+  { id: "overview", label: "대시보드", href: "/", icon: "●" },
+  { id: "my-issues", label: "내 이슈", href: "/issues/mine", icon: "□" },
   { id: "projects", label: "프로젝트", href: "/projects", icon: "◇" },
   { id: "search", label: "검색", href: "/search", icon: "⌕" },
 ];
-
-function isActiveMenu(pathname: string, href: string) {
-  return href === "/"
-    ? pathname === href
-    : pathname === href || pathname.startsWith(`${href}/`);
-}
 
 export function MobileNavigation() {
   const pathname = usePathname();

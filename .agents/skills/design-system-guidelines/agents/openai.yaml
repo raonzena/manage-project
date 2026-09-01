@@ -1,0 +1,4 @@
+interface:
+  display_name: "Design System Guidelines"
+  short_description: "Build UI with this project's design system"
+  default_prompt: "Use $design-system-guidelines to implement this UI consistently with the project design system."

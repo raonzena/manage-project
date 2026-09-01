@@ -1,5 +1,5 @@
 import { style, styleVariants } from "@vanilla-extract/css";
-import { vars } from "@/styles/theme.css";
+import { vars } from "@/design-system/styles/theme.css";
 
 export const root = style({
   display: "inline-flex",
@@ -24,14 +24,18 @@ export const tone = styleVariants({
   primary: {
     background: vars.color.brand,
     color: vars.color.textInverse,
-    selectors: { "&:hover:not(:disabled)": { background: vars.color.brandHover } },
+    selectors: {
+      "&:hover:not(:disabled)": { background: vars.color.brandHover },
+    },
   },
   secondary: {
     background: vars.color.surface,
     borderColor: vars.color.border,
     color: vars.color.textPrimary,
     boxShadow: vars.shadow.sm,
-    selectors: { "&:hover:not(:disabled)": { background: vars.color.surfaceSubtle } },
+    selectors: {
+      "&:hover:not(:disabled)": { background: vars.color.surfaceSubtle },
+    },
   },
   danger: {
     background: vars.color.danger,
@@ -51,7 +55,19 @@ export const tone = styleVariants({
 });
 
 export const size = styleVariants({
-  sm: { minHeight: 32, padding: `0 ${vars.space[3]}`, fontSize: vars.font.size.xs },
-  md: { minHeight: 40, padding: `0 ${vars.space[4]}`, fontSize: vars.font.size.sm },
-  lg: { minHeight: 48, padding: `0 ${vars.space[6]}`, fontSize: vars.font.size.md },
+  sm: {
+    minHeight: 32,
+    padding: `0 ${vars.space[3]}`,
+    fontSize: vars.font.size.xs,
+  },
+  md: {
+    minHeight: 40,
+    padding: `0 ${vars.space[4]}`,
+    fontSize: vars.font.size.sm,
+  },
+  lg: {
+    minHeight: 48,
+    padding: `0 ${vars.space[6]}`,
+    fontSize: vars.font.size.md,
+  },
 });

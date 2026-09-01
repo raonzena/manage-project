@@ -1,5 +1,5 @@
 import { style, styleVariants } from "@vanilla-extract/css";
-import { vars } from "@/styles/theme.css";
+import { vars } from "@/design-system/styles/theme.css";
 
 export const root = style({
   display: "inline-flex",
@@ -13,7 +13,10 @@ export const root = style({
 });
 
 export const tone = styleVariants({
-  neutral: { background: vars.color.surfaceSubtle, color: vars.color.textSecondary },
+  neutral: {
+    background: vars.color.surfaceSubtle,
+    color: vars.color.textSecondary,
+  },
   info: { background: vars.color.infoSubtle, color: vars.color.brandHover },
   success: { background: vars.color.successSubtle, color: "#15803d" },
   warning: { background: vars.color.warningSubtle, color: "#b45309" },

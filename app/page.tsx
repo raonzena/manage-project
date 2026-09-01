@@ -1,4 +1,4 @@
-import { Badge, Button } from "@/components/ui";
+import { Badge, Button } from "@/design-system/ui";
 import { getWorkspaceList } from "@/server/queries/workspaces";
 import { TaskCard } from "./_dashboard/TaskCard";
 import * as styles from "./page.css";

@@ -1,4 +1,5 @@
-import { vars } from "@/styles/theme.css";
+import { media } from "@/design-system/styles/media";
+import { vars } from "@/design-system/styles/theme.css";
 import { style } from "@vanilla-extract/css";
 
 export const gnb = style({
@@ -55,10 +56,10 @@ export const search = style({
   cursor: "pointer",
   fontSize: vars.font.size.xs,
   selectors: { "&:hover": { borderColor: vars.color.borderPrimary } },
-  "@media": { "(max-width: 680px)": { width: 36, justifyContent: "center" } },
+  "@media": { [media.mobile]: { width: 36, justifyContent: "center" } },
 });
 export const searchLabel = style({
-  "@media": { "(max-width: 680px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });
 export const create = style({
   height: 36,
@@ -84,5 +85,5 @@ export const avatar = style({
   fontFamily: vars.font.familyMono,
   fontSize: "0.6875rem",
   fontWeight: vars.font.weight.bold,
-  "@media": { "(max-width: 480px)": { display: "none" } },
+  "@media": { [media.compact]: { display: "none" } },
 });

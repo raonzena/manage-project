@@ -1,4 +1,5 @@
-import { vars } from "@/styles/theme.css";
+import { media } from "@/design-system/styles/media";
+import { vars } from "@/design-system/styles/theme.css";
 import { createTheme, createThemeContract, style } from "@vanilla-extract/css";
 
 const taskCardVars = createThemeContract({ accentColor: null });
@@ -27,7 +28,7 @@ export const taskCard = style({
     },
   },
   "@media": {
-    "(max-width: 680px)": { minHeight: 100, padding: vars.space[3] },
+    [media.mobile]: { minHeight: 100, padding: vars.space[3] },
   },
 });
 export const header = style({
@@ -51,7 +52,7 @@ export const statusDot = style({
   borderRadius: vars.radius.full,
   background: taskCardVars.accentColor,
   boxShadow: `0 0 0 4px color-mix(in srgb, ${taskCardVars.accentColor} 12%, transparent)`,
-  "@media": { "(max-width: 680px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });
 export const count = style({
   display: "block",
@@ -61,7 +62,7 @@ export const count = style({
   lineHeight: 1,
   letterSpacing: "-0.05em",
   "@media": {
-    "(max-width: 680px)": { marginTop: vars.space[2], fontSize: "2rem" },
+    [media.mobile]: { marginTop: vars.space[2], fontSize: "2rem" },
   },
 });
 export const meta = style({
@@ -71,7 +72,7 @@ export const meta = style({
   marginTop: vars.space[3],
   color: vars.color.textSecondary,
   fontSize: "0.6875rem",
-  "@media": { "(max-width: 680px)": { marginTop: vars.space[2] } },
+  "@media": { [media.mobile]: { marginTop: vars.space[2] } },
 });
 export const trend = style({
   color: taskCardVars.accentColor,
@@ -80,5 +81,5 @@ export const trend = style({
 });
 export const note = style({
   margin: 0,
-  "@media": { "(max-width: 680px)": { display: "none" } },
+  "@media": { [media.mobile]: { display: "none" } },
 });

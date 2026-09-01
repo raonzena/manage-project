@@ -1,5 +1,6 @@
 import { style } from "@vanilla-extract/css";
-import { vars } from "@/styles/theme.css";
+import { media } from "@/design-system/styles/media";
+import { vars } from "@/design-system/styles/theme.css";
 
 export const navigation = style({
   display: "flex",
@@ -13,26 +14,91 @@ export const navigation = style({
   borderRight: `1px solid #292929`,
   backgroundColor: vars.color.navigation,
   color: vars.color.textInverse,
-  "@media": { "(max-width: 840px)": { display: "none" } },
+  "@media": { [media.tablet]: { display: "none" } },
+});
+export const navigationLoading = style({
+  padding: vars.space[2],
+  color: "#8b8b8b",
+  fontFamily: vars.font.familyMono,
+  fontSize: "0.625rem",
 });
 
-export const workspace = style({
+export const hierarchy = style({
+  display: "flex",
+  flexDirection: "column",
+  minHeight: 0,
+  gap: "24px",
+});
+export const selector = style({ display: "block" });
+export const selectorLabel = style({
+  display: "block",
+  margin: `0 ${vars.space[2]} ${vars.space[1]}`,
+  color: "#8b8b8b",
+  fontFamily: vars.font.familyMono,
+  fontSize: "0.625rem",
+  fontWeight: vars.font.weight.bold,
+  letterSpacing: "0.1em",
+  textTransform: "uppercase",
+});
+export const selectorControl = style({
   display: "grid",
-  gridTemplateColumns: "32px 1fr auto",
+  position: "relative",
+  gridTemplateColumns: "32px minmax(0, 1fr) 16px",
   alignItems: "center",
   gap: vars.space[2],
+  minHeight: 54,
   padding: vars.space[2],
-  marginBottom: vars.space[4],
   border: "1px solid #353535",
   borderRadius: vars.radius.md,
   background: "#202020",
-  fontSize: vars.font.size.xs,
+  transition: `border-color ${vars.transition.fast}, background ${vars.transition.fast}`,
+  selectors: {
+    "&:hover": { background: "#242424", borderColor: "#454545" },
+    "&:focus-within": {
+      borderColor: vars.color.brand,
+      boxShadow: `0 0 0 2px rgb(31 138 91 / 0.2)`,
+    },
+  },
 });
-export const workspaceMeta = style({
+export const selectorValue = style({
+  display: "flex",
+  minWidth: 0,
+  flexDirection: "column",
+  gap: 2,
+  pointerEvents: "none",
+});
+export const selectorValueTitle = style({
+  overflow: "hidden",
+  fontSize: vars.font.size.xs,
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+});
+export const selectorValueMeta = style({
+  color: "#8b8b8b",
+  fontFamily: vars.font.familyMono,
+  fontSize: "0.625rem",
+});
+export const select = style({
+  position: "absolute",
+  inset: 0,
+  width: "100%",
+  cursor: "pointer",
+  opacity: 0,
+});
+export const selectorChevron = style({
+  display: "grid",
+  placeItems: "center",
+  width: 16,
+  height: 16,
+  color: "#8b8b8b",
+  lineHeight: 0,
+  pointerEvents: "none",
+});
+export const selectorChevronIcon = style({
   display: "block",
-  marginTop: vars.space[1],
-  color: vars.color.textSecondary,
-  fontSize: "0.6875rem",
+  width: "100%",
+  height: "100%",
+  overflow: "visible",
 });
 export const workspaceMark = style({
   display: "grid",
@@ -45,61 +111,55 @@ export const workspaceMark = style({
   fontFamily: vars.font.familyMono,
   fontWeight: vars.font.weight.bold,
 });
-export const label = style({
-  margin: `${vars.space[3]} ${vars.space[2]} ${vars.space[1]}`,
-  color: vars.color.textSecondary,
+export const projectMark = style({
+  width: 8,
+  height: 8,
+  marginLeft: vars.space[3],
+  borderRadius: vars.radius.sm,
+});
+export const issueSection = style({
+  minHeight: 0,
+});
+export const issueHeading = style({
+  margin: `0 ${vars.space[2]} ${vars.space[2]}`,
+  color: "#8b8b8b",
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
   fontWeight: vars.font.weight.bold,
   letterSpacing: "0.1em",
   textTransform: "uppercase",
 });
-export const menu = style({ marginBottom: vars.space[4] });
-export const menuLink = style({
+export const issueMenuList = style({
   display: "flex",
-  justifyContent: "space-between",
+  flexDirection: "column",
+  gap: 2,
+});
+export const issueMenuLink = style({
+  display: "flex",
   alignItems: "center",
-  minHeight: 36,
+  justifyContent: "space-between",
+  minHeight: 38,
   paddingInline: vars.space[2],
   borderRadius: vars.radius.sm,
   color: vars.color.textSecondary,
   fontSize: vars.font.size.sm,
+  transition: `color ${vars.transition.fast}, background ${vars.transition.fast}`,
   selectors: {
-    "&:hover": {
-      background: "#202020",
-      color: vars.color.textInverse,
+    "&:hover": { background: "#202020", color: vars.color.textInverse },
+    "&:focus-visible": {
+      outline: `2px solid ${vars.color.brand}`,
+      outlineOffset: 1,
     },
   },
 });
-export const menuCount = style({
+export const issueMenuCount = style({
   fontFamily: vars.font.familyMono,
-  fontSize: "0.6875rem",
+  fontSize: "0.625rem",
 });
-export const active = style({
-  background: "#242424 !important",
-  color: "#3ecf8e !important",
+export const issueMenuActive = style({
+  background: "#242424",
+  color: "#3ecf8e",
   fontWeight: vars.font.weight.semibold,
-});
-export const projects = style({});
-export const projectLink = style({
-  display: "grid",
-  gridTemplateColumns: "8px 1fr auto",
-  alignItems: "center",
-  gap: vars.space[2],
-  minHeight: 36,
-  paddingInline: vars.space[2],
-  color: vars.color.textSecondary,
-  fontSize: vars.font.size.sm,
-  selectors: { "&:hover": { color: vars.color.textInverse } },
-});
-export const projectIndicator = style({
-  width: 8,
-  height: 8,
-  borderRadius: vars.radius.sm,
-});
-export const projectCount = style({
-  fontFamily: vars.font.familyMono,
-  fontSize: "0.6875rem",
 });
 export const blue = style({ background: vars.color.brand });
 export const green = style({ background: vars.color.success });
@@ -108,7 +168,7 @@ export const orange = style({ background: vars.color.warning });
 export const mobileNavigation = style({
   display: "none",
   "@media": {
-    "(max-width: 840px)": {
+    [media.tablet]: {
       display: "grid",
       position: "fixed",
       right: 0,
