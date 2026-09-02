@@ -40,4 +40,9 @@ export const input = style({
 export const hint = style({
   color: vars.color.textSecondary,
   fontSize: vars.font.size.xs,
+  selectors: {
+    [`${input}[aria-invalid='true'] + &`]: {
+      color: vars.color.danger,
+    },
+  },
 });

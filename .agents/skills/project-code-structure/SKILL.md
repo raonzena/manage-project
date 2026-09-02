@@ -24,6 +24,16 @@ Place code by ownership and actual reuse. Keep route implementation close to its
 - Move a route-local component to shared scope when reuse actually appears. Do not create speculative shared abstractions.
 - Shared modules must not import from route-local `app/**/_*` modules. Dependencies should flow from routes toward shared components, the design system, domain logic, and server utilities.
 
+## API and Server Logic Ownership
+
+- Do not create a root `apis/` directory that mixes HTTP endpoints, database access, Server Actions, and third-party clients. Place each module according to its runtime role and actual owner.
+- Implement HTTP endpoints that external clients, webhooks, or browser code must call as Route Handlers under `app/api/**/route.ts`.
+- Do not call this application's own Route Handlers from Server Components or other server code when the underlying server module can be invoked directly.
+- Keep Server Actions, validation, and server logic used by only one route subtree in that subtree's private folder, such as `app/(auth)/_lib/auth-actions.ts`.
+- Place server-only queries and mutations shared by multiple route subtrees under role-specific root modules such as `server/queries/` and `server/mutations/`.
+- Organize third-party API clients by service or domain, for example `lib/github/` or `server/integrations/slack.ts`, instead of grouping unrelated clients under a generic `apis/` directory. Keep credentials and privileged calls in server-only modules.
+- Extract a route-local server module into shared scope only after another route needs it; do not create `server/services/` or similar layers speculatively.
+
 ## Module Extraction
 
 - Keep a type, constant, or helper next to its only consumer while the file remains easy to understand.
