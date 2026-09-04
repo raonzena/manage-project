@@ -11,14 +11,14 @@ export const navigation = style({
   height: `calc(100dvh - ${vars.height.gnb})`,
   width: vars.width.navigation,
   padding: vars.space[3],
-  borderRight: `1px solid #292929`,
+  borderRight: `1px solid ${vars.color.navigationBorder}`,
   backgroundColor: vars.color.navigation,
   color: vars.color.textInverse,
   "@media": { [media.tablet]: { display: "none" } },
 });
 export const navigationLoading = style({
   padding: vars.space[2],
-  color: "#8b8b8b",
+  color: vars.color.navigationTextSecondary,
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
 });
@@ -27,13 +27,13 @@ export const hierarchy = style({
   display: "flex",
   flexDirection: "column",
   minHeight: 0,
-  gap: "24px",
+  gap: vars.space[6],
 });
 export const selector = style({ display: "block" });
 export const selectorLabel = style({
   display: "block",
   margin: `0 ${vars.space[2]} ${vars.space[1]}`,
-  color: "#8b8b8b",
+  color: vars.color.navigationTextSecondary,
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
   fontWeight: vars.font.weight.bold,
@@ -48,15 +48,18 @@ export const selectorControl = style({
   gap: vars.space[2],
   minHeight: 54,
   padding: vars.space[2],
-  border: "1px solid #353535",
+  border: `1px solid ${vars.color.navigationBorder}`,
   borderRadius: vars.radius.md,
-  background: "#202020",
+  background: vars.color.navigationSurface,
   transition: `border-color ${vars.transition.fast}, background ${vars.transition.fast}`,
   selectors: {
-    "&:hover": { background: "#242424", borderColor: "#454545" },
+    "&:hover": {
+      background: vars.color.navigationBorder,
+      borderColor: vars.color.navigationTextSecondary,
+    },
     "&:focus-within": {
       borderColor: vars.color.brand,
-      boxShadow: `0 0 0 2px rgb(31 138 91 / 0.2)`,
+      boxShadow: `0 0 0 2px color-mix(in srgb, ${vars.color.brand} 20%, transparent)`,
     },
   },
 });
@@ -74,7 +77,7 @@ export const selectorValueTitle = style({
   whiteSpace: "nowrap",
 });
 export const selectorValueMeta = style({
-  color: "#8b8b8b",
+  color: vars.color.navigationTextSecondary,
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
 });
@@ -90,7 +93,7 @@ export const selectorChevron = style({
   placeItems: "center",
   width: 16,
   height: 16,
-  color: "#8b8b8b",
+  color: vars.color.navigationTextSecondary,
   lineHeight: 0,
   pointerEvents: "none",
 });
@@ -122,7 +125,7 @@ export const issueSection = style({
 });
 export const issueHeading = style({
   margin: `0 ${vars.space[2]} ${vars.space[2]}`,
-  color: "#8b8b8b",
+  color: vars.color.navigationTextSecondary,
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
   fontWeight: vars.font.weight.bold,
@@ -145,7 +148,10 @@ export const issueMenuLink = style({
   fontSize: vars.font.size.sm,
   transition: `color ${vars.transition.fast}, background ${vars.transition.fast}`,
   selectors: {
-    "&:hover": { background: "#202020", color: vars.color.textInverse },
+    "&:hover": {
+      background: vars.color.navigationSurface,
+      color: vars.color.textInverse,
+    },
     "&:focus-visible": {
       outline: `2px solid ${vars.color.brand}`,
       outlineOffset: 1,
@@ -157,13 +163,11 @@ export const issueMenuCount = style({
   fontSize: "0.625rem",
 });
 export const issueMenuActive = style({
-  background: "#242424",
-  color: "#3ecf8e",
+  background: vars.color.navigationBorder,
+  color: vars.color.navigationAccent,
   fontWeight: vars.font.weight.semibold,
 });
-export const blue = style({ background: vars.color.brand });
 export const green = style({ background: vars.color.success });
-export const orange = style({ background: vars.color.warning });
 
 export const mobileNavigation = style({
   display: "none",

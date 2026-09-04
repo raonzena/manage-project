@@ -1,5 +1,21 @@
 export type IssueViewId = "all" | "mine" | "in-progress" | "due-soon";
 
+export type NavigationWorkspace = {
+  id: string;
+  name: string;
+  projects: Array<{
+    id: string;
+    name: string;
+    key: string;
+    issues: Array<{
+      id: string;
+      status: string;
+      assignee_id: string | null;
+      due_at: string | null;
+    }>;
+  }>;
+};
+
 export const issueViews = [
   { id: "all", label: "전체 이슈", description: "이 프로젝트에 등록된 모든 이슈를 확인하세요." },
   { id: "mine", label: "내 이슈", description: "내가 담당하고 있는 이슈를 확인하세요." },
@@ -26,6 +42,21 @@ export function matchesIssueView(
 ) {
   if (viewId === "mine") return issue.assignee_id === userId;
   if (viewId === "in-progress") return issue.status === "IN_PROGRESS";
-  if (viewId === "due-soon") return isDueSoon(issue.due_at);
+  if (viewId === "due-soon")
+    return issue.status !== "DONE" && isDueSoon(issue.due_at);
   return true;
+}
+
+export function getNavigationSelection(
+  workspaces: NavigationWorkspace[],
+  workspaceId?: string | null,
+  projectId?: string | null,
+) {
+  const workspace =
+    workspaces.find(({ id }) => id === workspaceId) ?? workspaces[0];
+  const project =
+    workspace?.projects.find(({ id }) => id === projectId) ??
+    workspace?.projects[0];
+
+  return { project, workspace };
 }

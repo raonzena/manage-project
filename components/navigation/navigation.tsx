@@ -5,7 +5,10 @@ import { WorkspaceNavigation } from "./workspace-navigation";
 import * as styles from "./navigation.css";
 
 export async function Navigation() {
-  const [workspaces, user] = await Promise.all([getWorkspaceList(), getCurrentUser()]);
+  const [workspaces, user] = await Promise.all([
+    getWorkspaceList(),
+    getCurrentUser(),
+  ]);
   if (workspaces.length === 0) return null;
   return (
     <>
@@ -16,12 +19,17 @@ export async function Navigation() {
             <span className={styles.navigationLoading}>메뉴 불러오는 중</span>
           }
         >
-          <WorkspaceNavigation currentUserId={user.id} workspaces={workspaces} />
+          <WorkspaceNavigation
+            currentUserId={user.id}
+            workspaces={workspaces}
+          />
         </Suspense>
       </nav>
 
       {/* Mobile Navigation */}
-      <MobileNavigation />
+      <Suspense fallback={null}>
+        <MobileNavigation workspaces={workspaces} />
+      </Suspense>
     </>
   );
 }

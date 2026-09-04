@@ -4,24 +4,29 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { isActiveMenu } from "./is-active-menu";
 import {
+  getNavigationSelection,
   issueViews,
   matchesIssueView,
+  type NavigationWorkspace,
 } from "./navigation-domain";
 import * as styles from "./navigation.css";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 
-type Workspace = {
-  id: string;
-  name: string;
-  projects: Array<{ id: string; name: string; key: string; issues: Array<{ id: string; status: string; assignee_id: string | null; due_at: string | null }> }>;
-};
-
-export function WorkspaceNavigation({ currentUserId, workspaces }: { currentUserId: string; workspaces: Workspace[] }) {
+export function WorkspaceNavigation({
+  currentUserId,
+  workspaces,
+}: {
+  currentUserId: string;
+  workspaces: NavigationWorkspace[];
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const workspace = workspaces.find(({ id }) => id === searchParams.get("workspace")) ?? workspaces[0];
-  const project = workspace?.projects.find(({ id }) => id === searchParams.get("project")) ?? workspace?.projects[0];
+  const { project, workspace } = getNavigationSelection(
+    workspaces,
+    searchParams.get("workspace"),
+    searchParams.get("project"),
+  );
 
   if (!workspace || !project) return null;
 
@@ -116,7 +121,9 @@ export function WorkspaceNavigation({ currentUserId, workspaces }: { currentUser
         </h2>
         <ul className={styles.issueMenuList}>
           {issueViews.map((view) => {
-            const count = project.issues.filter((issue) => matchesIssueView(issue, view.id, currentUserId)).length;
+            const count = project.issues.filter((issue) =>
+              matchesIssueView(issue, view.id, currentUserId),
+            ).length;
             const isActive = isActiveMenu(pathname, `/issues/${view.id}`);
 
             return (

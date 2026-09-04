@@ -16,6 +16,7 @@ export function OnboardingForm() {
     <form action={action} className={styles.form}>
       <div className={styles.fields}>
         <Input
+          aria-invalid={Boolean(state.errors?.workspaceName)}
           label="워크스페이스 이름"
           name="workspaceName"
           placeholder="예: 제품 개발팀"
@@ -23,6 +24,7 @@ export function OnboardingForm() {
           hint={state.errors?.workspaceName?.[0]}
         />
         <Input
+          aria-invalid={Boolean(state.errors?.workspaceSlug)}
           label="워크스페이스 주소"
           name="workspaceSlug"
           placeholder="product-team"
@@ -30,6 +32,7 @@ export function OnboardingForm() {
           hint={state.errors?.workspaceSlug?.[0]}
         />
         <Input
+          aria-invalid={Boolean(state.errors?.projectName)}
           label="첫 프로젝트 이름"
           name="projectName"
           placeholder="예: 모바일 앱"
@@ -37,6 +40,7 @@ export function OnboardingForm() {
           hint={state.errors?.projectName?.[0]}
         />
         <Input
+          aria-invalid={Boolean(state.errors?.projectKey)}
           label="프로젝트 키"
           name="projectKey"
           placeholder="MOB"

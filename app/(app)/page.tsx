@@ -61,11 +61,16 @@ export default async function DashboardPage() {
     ({ status, updated_at }) =>
       status === "DONE" && new Date(updated_at) >= weekStart,
   );
-  const mine = issues.filter(({ assignee_id }) => assignee_id === user.id);
+  const firstProject = workspaces[0].projects[0];
+  const mine = firstProject
+    ? issues.filter(
+        ({ assignee_id, project_id }) =>
+          assignee_id === user.id && project_id === firstProject.id,
+      )
+    : [];
   const recent = [...issues]
     .sort((a, b) => b.updated_at.localeCompare(a.updated_at))
     .slice(0, 3);
-  const firstProject = workspaces[0].projects[0];
   const allMineHref = firstProject
     ? `/issues/mine?workspace=${workspaces[0].id}&project=${firstProject.id}`
     : "/issues/mine";
@@ -111,7 +116,9 @@ export default async function DashboardPage() {
           <div className={styles.sectionHeader}>
             <div>
               <p className={styles.kicker}>My queue</p>
-              <h2 className={styles.sectionTitle}>내가 맡은 이슈</h2>
+              <h2 className={styles.sectionTitle}>
+                내가 맡은 이슈{firstProject ? ` · ${firstProject.name}` : ""}
+              </h2>
             </div>
             <Link className={styles.sectionLink} href={allMineHref}>
               전체 {mine.length}개 보기 →

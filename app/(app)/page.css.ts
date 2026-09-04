@@ -50,9 +50,6 @@ export const eyebrow = style({
   fontWeight: vars.font.weight.bold,
   letterSpacing: "0.04em",
 });
-export const reportButton = style({
-  "@media": { [media.mobile]: { display: "none" } },
-});
 export const stats = style({
   display: "grid",
   gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
@@ -187,59 +184,32 @@ export const issueDue = style({
   fontSize: "0.6875rem",
   "@media": { [media.mobile]: { display: "none" } },
 });
-export const progressMeta = style({
-  display: "flex",
-  justifyContent: "space-between",
-  marginTop: vars.space[2],
-  color: "#a3a3a3",
-  fontSize: vars.font.size.xs,
+export const activity = style({
+  margin: 0,
+  borderTop: `1px solid ${vars.color.navigationBorder}`,
 });
-export const progressValue = style({
-  color: vars.color.textInverse,
-  fontFamily: vars.font.familyMono,
-});
-export const rail = style({
-  overflow: "hidden",
-  height: 4,
-  margin: `${vars.space[3]} 0 ${vars.space[8]}`,
-  borderRadius: vars.radius.full,
-  background: "#303030",
-});
-export const railValue = style({
-  display: "block",
-  width: "75%",
-  height: "100%",
-  borderRadius: vars.radius.full,
-  background: "#3ecf8e",
-});
-export const activity = style({ margin: 0, borderTop: "1px solid #303030" });
 export const activityItem = style({
   display: "grid",
   gridTemplateColumns: "44px 1fr",
   gap: vars.space[3],
   paddingBlock: vars.space[4],
-  borderBottom: "1px solid #303030",
+  borderBottom: `1px solid ${vars.color.navigationBorder}`,
 });
 export const activityText = style({
   margin: 0,
-  color: "#d4d4d4",
+  color: vars.color.navigationText,
   fontSize: vars.font.size.xs,
   lineHeight: vars.font.lineHeight.relaxed,
 });
 export const activityAuthor = style({ color: vars.color.textInverse });
 export const activityIssue = style({
-  color: "#3ecf8e",
+  color: vars.color.navigationAccent,
   fontFamily: vars.font.familyMono,
 });
 export const activityTime = style({
-  color: "#8a8a8a",
+  color: vars.color.navigationTextSecondary,
   fontFamily: vars.font.familyMono,
   fontSize: "0.625rem",
-});
-export const workspaceNote = style({
-  marginTop: vars.space[4],
-  color: vars.color.textSecondary,
-  fontSize: vars.font.size.xs,
 });
 export const onboardingContainer = style({
   boxSizing: "border-box",
@@ -278,7 +248,7 @@ export const emptyDescription = style({
 export const activityEmpty = style({
   margin: 0,
   paddingBlock: vars.space[6],
-  borderTop: "1px solid #303030",
-  color: "#a3a3a3",
+  borderTop: `1px solid ${vars.color.navigationBorder}`,
+  color: vars.color.navigationTextSecondary,
   fontSize: vars.font.size.sm,
 });
