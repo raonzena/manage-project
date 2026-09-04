@@ -1,9 +1,17 @@
 import { Suspense } from "react";
+import type { NavigationWorkspace } from "./navigation-domain";
 import { MobileNavigation } from "./mobile-navigation";
 import { WorkspaceNavigation } from "./workspace-navigation";
 import * as styles from "./navigation.css";
 
-export function Navigation() {
+export function Navigation({
+  currentUserId,
+  workspaces,
+}: {
+  currentUserId: string;
+  workspaces: NavigationWorkspace[];
+}) {
+  if (workspaces.length === 0) return null;
   return (
     <>
       {/* Desktop Navigation */}
@@ -13,12 +21,17 @@ export function Navigation() {
             <span className={styles.navigationLoading}>메뉴 불러오는 중</span>
           }
         >
-          <WorkspaceNavigation />
+          <WorkspaceNavigation
+            currentUserId={currentUserId}
+            workspaces={workspaces}
+          />
         </Suspense>
       </nav>
 
       {/* Mobile Navigation */}
-      <MobileNavigation />
+      <Suspense fallback={null}>
+        <MobileNavigation workspaces={workspaces} />
+      </Suspense>
     </>
   );
 }

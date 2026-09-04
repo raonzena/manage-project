@@ -1,8 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { isActiveMenu } from "./is-active-menu";
+import {
+  getNavigationSelection,
+  type NavigationWorkspace,
+} from "./navigation-domain";
 import * as styles from "./navigation.css";
 
 const mobileMenus = [
@@ -12,8 +16,28 @@ const mobileMenus = [
   { id: "search", label: "검색", href: "/search", icon: "⌕" },
 ];
 
-export function MobileNavigation() {
+export function MobileNavigation({
+  workspaces,
+}: {
+  workspaces: NavigationWorkspace[];
+}) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const { project, workspace } = getNavigationSelection(
+    workspaces,
+    searchParams.get("workspace"),
+    searchParams.get("project"),
+  );
+
+  function getHref(href: string) {
+    if (href !== "/issues/mine" || !workspace || !project) return href;
+
+    const params = new URLSearchParams({
+      workspace: workspace.id,
+      project: project.id,
+    });
+    return `${href}?${params.toString()}`;
+  }
 
   return (
     <nav className={styles.mobileNavigation} aria-label="모바일 메뉴">
@@ -26,7 +50,7 @@ export function MobileNavigation() {
             className={`${styles.mobileNavigationLink} ${
               isActive ? styles.mobileActive : ""
             }`}
-            href={menu.href}
+            href={getHref(menu.href)}
             aria-current={isActive ? "page" : undefined}
           >
             <span className={styles.mobileNavigationIcon} aria-hidden="true">

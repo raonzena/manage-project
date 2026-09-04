@@ -5,9 +5,9 @@ import { createTheme, createThemeContract, style } from "@vanilla-extract/css";
 const taskCardVars = createThemeContract({ accentColor: null });
 
 export const taskCardTheme = {
-  active: createTheme(taskCardVars, { accentColor: "#1F8A5B" }),
-  dueSoon: createTheme(taskCardVars, { accentColor: "#B42318" }),
-  completed: createTheme(taskCardVars, { accentColor: "#1F8A5B" }),
+  active: createTheme(taskCardVars, { accentColor: vars.color.success }),
+  dueSoon: createTheme(taskCardVars, { accentColor: vars.color.danger }),
+  completed: createTheme(taskCardVars, { accentColor: vars.color.success }),
 };
 
 export const taskCard = style({
