@@ -4,29 +4,26 @@ import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { isActiveMenu } from "./is-active-menu";
 import {
-  filterIssues,
-  getSelection,
   issueViews,
-  workspaces,
-  type ProjectTone,
-} from "./navigation-data";
+  matchesIssueView,
+} from "./navigation-domain";
 import * as styles from "./navigation.css";
 import ArrowDown from "@/assets/icons/arrow-down.svg";
 
-const projectToneClassName: Record<ProjectTone, string> = {
-  blue: styles.blue,
-  green: styles.green,
-  orange: styles.orange,
+type Workspace = {
+  id: string;
+  name: string;
+  projects: Array<{ id: string; name: string; key: string; issues: Array<{ id: string; status: string; assignee_id: string | null; due_at: string | null }> }>;
 };
 
-export function WorkspaceNavigation() {
+export function WorkspaceNavigation({ currentUserId, workspaces }: { currentUserId: string; workspaces: Workspace[] }) {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { project, workspace } = getSelection(
-    searchParams.get("workspace") ?? undefined,
-    searchParams.get("project") ?? undefined,
-  );
+  const workspace = workspaces.find(({ id }) => id === searchParams.get("workspace")) ?? workspaces[0];
+  const project = workspace?.projects.find(({ id }) => id === searchParams.get("project")) ?? workspace?.projects[0];
+
+  if (!workspace || !project) return null;
 
   function updateSelection(nextWorkspaceId: string, nextProjectId: string) {
     const params = new URLSearchParams(searchParams.toString());
@@ -36,8 +33,9 @@ export function WorkspaceNavigation() {
   }
 
   function handleWorkspaceChange(nextWorkspaceId: string) {
-    const nextSelection = getSelection(nextWorkspaceId);
-    updateSelection(nextSelection.workspace.id, nextSelection.project.id);
+    const nextWorkspace = workspaces.find(({ id }) => id === nextWorkspaceId);
+    const nextProject = nextWorkspace?.projects[0];
+    if (nextWorkspace && nextProject) updateSelection(nextWorkspace.id, nextProject.id);
   }
 
   function getViewHref(viewId: string) {
@@ -54,7 +52,7 @@ export function WorkspaceNavigation() {
         <span className={styles.selectorLabel}>Workspace</span>
         <span className={styles.selectorControl}>
           <span className={styles.workspaceMark} aria-hidden="true">
-            {workspace.mark}
+            {workspace.name.slice(0, 2).toUpperCase()}
           </span>
           <span className={styles.selectorValue}>
             <strong className={styles.selectorValueTitle}>
@@ -82,7 +80,7 @@ export function WorkspaceNavigation() {
         <span className={styles.selectorLabel}>Project</span>
         <span className={styles.selectorControl}>
           <span
-            className={`${styles.projectMark} ${projectToneClassName[project.tone]}`}
+            className={`${styles.projectMark} ${styles.green}`}
             aria-hidden="true"
           />
           <span className={styles.selectorValue}>
@@ -118,7 +116,7 @@ export function WorkspaceNavigation() {
         </h2>
         <ul className={styles.issueMenuList}>
           {issueViews.map((view) => {
-            const count = filterIssues(project.issues, view.id).length;
+            const count = project.issues.filter((issue) => matchesIssueView(issue, view.id, currentUserId)).length;
             const isActive = isActiveMenu(pathname, `/issues/${view.id}`);
 
             return (

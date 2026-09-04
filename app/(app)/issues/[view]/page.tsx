@@ -1,18 +1,22 @@
 import { Badge } from "@/design-system/ui";
 import {
-  filterIssues,
   getIssueView,
-  getSelection,
   issueViews,
-  type IssueStatus,
-} from "@/components/navigation/navigation-data";
+  matchesIssueView,
+} from "@/components/navigation/navigation-domain";
+import { getIssueList } from "@/server/queries/issues";
+import { getCurrentUser, getWorkspaceList } from "@/server/queries/workspaces";
 import { notFound } from "next/navigation";
 import * as styles from "./issue-list.css";
 
-const statusTone: Record<IssueStatus, "neutral" | "info" | "warning"> = {
-  "할 일": "neutral",
-  "진행 중": "info",
-  검토: "warning",
+const statusMeta: Record<
+  string,
+  { label: string; tone: "neutral" | "info" | "warning" | "success" }
+> = {
+  TODO: { label: "할 일", tone: "neutral" },
+  IN_PROGRESS: { label: "진행 중", tone: "info" },
+  REVIEW: { label: "검토", tone: "warning" },
+  DONE: { label: "완료", tone: "success" },
 };
 
 export function generateStaticParams() {
@@ -29,18 +33,28 @@ export default async function IssueListPage({
     workspace?: string | string[];
   }>;
 }) {
-  const [{ view: viewId }, query] = await Promise.all([params, searchParams]);
+  const [{ view: viewId }, query, workspaces, user] = await Promise.all([
+    params,
+    searchParams,
+    getWorkspaceList(),
+    getCurrentUser(),
+  ]);
   const view = getIssueView(viewId);
 
   if (!view) {
     notFound();
   }
 
-  const { project, workspace } = getSelection(
-    getQueryValue(query.workspace),
-    getQueryValue(query.project),
+  const workspace =
+    workspaces.find(({ id }) => id === getQueryValue(query.workspace)) ??
+    workspaces[0];
+  const project =
+    workspace?.projects.find(({ id }) => id === getQueryValue(query.project)) ??
+    workspace?.projects[0];
+  if (!workspace || !project) notFound();
+  const issues = (await getIssueList(project.id)).filter((issue) =>
+    matchesIssueView(issue, view.id, user.id),
   );
-  const issues = filterIssues(project.issues, view.id);
 
   return (
     <div className={styles.container}>
@@ -71,22 +85,29 @@ export default async function IssueListPage({
             {issues.map((issue) => (
               <li className={styles.issueRow} key={issue.id}>
                 <div className={styles.issueIdentity}>
-                  <code className={styles.issueKey}>{issue.key}</code>
+                  <code className={styles.issueKey}>
+                    {project.key}-{issue.number}
+                  </code>
                   <strong className={styles.issueTitle}>{issue.title}</strong>
                 </div>
                 <Badge
                   className={styles.status}
-                  tone={statusTone[issue.status]}
+                  tone={(statusMeta[issue.status] ?? statusMeta.TODO).tone}
                 >
-                  {issue.status}
+                  {(statusMeta[issue.status] ?? statusMeta.TODO).label}
                 </Badge>
                 <span
                   className={styles.owner}
-                  aria-label={`담당자 ${issue.owner}`}
+                  aria-label={`담당자 ${getAssigneeName(issue.assignee)}`}
                 >
-                  {issue.owner}
+                  {getAssigneeName(issue.assignee).slice(0, 2)}
                 </span>
-                <time className={styles.due}>{issue.due}</time>
+                <time
+                  className={styles.due}
+                  dateTime={issue.due_at ?? undefined}
+                >
+                  {formatDue(issue.due_at)}
+                </time>
               </li>
             ))}
           </ul>
@@ -105,4 +126,20 @@ export default async function IssueListPage({
 
 function getQueryValue(value?: string | string[]) {
   return Array.isArray(value) ? value[0] : value;
+}
+
+function getAssigneeName(
+  assignee: { name: string } | { name: string }[] | null,
+) {
+  const value = Array.isArray(assignee) ? assignee[0] : assignee;
+  return value?.name ?? "미지정";
+}
+
+function formatDue(value: string | null) {
+  return value
+    ? new Intl.DateTimeFormat("ko-KR", {
+        month: "short",
+        day: "numeric",
+      }).format(new Date(`${value}T00:00:00`))
+    : "미정";
 }

@@ -241,3 +241,44 @@ export const workspaceNote = style({
   color: vars.color.textSecondary,
   fontSize: vars.font.size.xs,
 });
+export const onboardingContainer = style({
+  boxSizing: "border-box",
+  display: "flex",
+  minHeight: `calc(100dvh - ${vars.height.gnb})`,
+  flexDirection: "column",
+  justifyContent: "center",
+  gap: vars.space[4],
+  width: "100%",
+  maxWidth: 624,
+  marginInline: "auto",
+  padding: vars.space[8],
+  "@media": { [media.mobile]: { padding: vars.space[4] } },
+});
+export const onboardingTitle = style({
+  margin: 0,
+  fontFamily: vars.font.familyDisplay,
+  fontSize: vars.font.size.display,
+  lineHeight: vars.font.lineHeight.tight,
+  letterSpacing: "-0.045em",
+});
+export const onboardingDescription = style({
+  margin: `0 0 ${vars.space[4]}`,
+  color: vars.color.textSecondary,
+  lineHeight: vars.font.lineHeight.relaxed,
+});
+export const emptyState = style({
+  padding: `${vars.space[10]} ${vars.space[6]}`,
+  color: vars.color.textSecondary,
+  textAlign: "center",
+});
+export const emptyDescription = style({
+  margin: `${vars.space[2]} 0 0`,
+  fontSize: vars.font.size.sm,
+});
+export const activityEmpty = style({
+  margin: 0,
+  paddingBlock: vars.space[6],
+  borderTop: "1px solid #303030",
+  color: "#a3a3a3",
+  fontSize: vars.font.size.sm,
+});

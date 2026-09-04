@@ -4,11 +4,7 @@ import { Button, Input } from "@/design-system/ui";
 import Link from "next/link";
 import { useActionState, useState, type FormEvent } from "react";
 import type { AuthAction, AuthState } from "../_auth/actions";
-import {
-  loginSchema,
-  signUpSchema,
-  type AuthField,
-} from "../_auth/schema";
+import { loginSchema, signUpSchema, type AuthField } from "../_auth/schema";
 import * as styles from "./auth.css";
 
 type AuthFormProps = {
@@ -80,6 +76,7 @@ export function AuthForm({ action, mode }: AuthFormProps) {
         label="비밀번호"
         minLength={8}
         name="password"
+        placeholder="비밀번호를 입력해주세요."
         required
         type="password"
       />
@@ -94,6 +91,7 @@ export function AuthForm({ action, mode }: AuthFormProps) {
           label="비밀번호 확인"
           minLength={8}
           name="passwordConfirm"
+          placeholder="비밀번호를 다시 입력해주세요."
           required
           type="password"
         />

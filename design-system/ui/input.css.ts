@@ -3,6 +3,7 @@ import { vars } from "@/design-system/styles/theme.css";
 
 export const field = style({
   display: "grid",
+  alignContent: "start",
   gap: vars.space[2],
 });
 
