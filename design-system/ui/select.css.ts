@@ -1,7 +1,11 @@
 import { vars } from "@/design-system/styles/theme.css";
 import { style, styleVariants } from "@vanilla-extract/css";
 
-export const field = style({ position: "relative", display: "grid", gap: vars.space[1] });
+export const field = style({
+  position: "relative",
+  display: "grid",
+  gap: vars.space[1],
+});
 export const label = style({
   marginInline: vars.space[2],
   fontFamily: vars.font.familyMono,
@@ -40,7 +44,11 @@ export const controlTone = styleVariants({
     color: vars.color.textPrimary,
     selectors: {
       "&:hover:not(:disabled)": { borderColor: vars.color.borderPrimary },
-      "&:focus-visible": { borderColor: vars.color.brand, boxShadow: `0 0 0 3px ${vars.color.infoSubtle}`, outline: 0 },
+      "&:focus-visible": {
+        borderColor: vars.color.brand,
+        boxShadow: `0 0 0 3px ${vars.color.infoSubtle}`,
+        outline: 0,
+      },
     },
   },
   inverse: {
@@ -48,12 +56,23 @@ export const controlTone = styleVariants({
     background: vars.color.navigationSurface,
     color: vars.color.textInverse,
     selectors: {
-      "&:hover:not(:disabled)": { borderColor: vars.color.navigationTextSecondary, background: vars.color.navigationBorder },
-      "&:focus-visible": { borderColor: vars.color.brand, boxShadow: `0 0 0 2px color-mix(in srgb, ${vars.color.brand} 20%, transparent)`, outline: 0 },
+      "&:hover:not(:disabled)": {
+        borderColor: vars.color.navigationTextSecondary,
+        background: vars.color.navigationBorder,
+      },
+      "&:focus-visible": {
+        borderColor: vars.color.brand,
+        boxShadow: `0 0 0 2px color-mix(in srgb, ${vars.color.brand} 20%, transparent)`,
+        outline: 0,
+      },
     },
   },
 });
-export const leading = style({ display: "grid", placeItems: "center", pointerEvents: "none" });
+export const leading = style({
+  display: "grid",
+  placeItems: "center",
+  pointerEvents: "none",
+});
 export const value = style({
   minWidth: 0,
   overflow: "hidden",
@@ -85,8 +104,16 @@ export const listbox = style({
   boxShadow: vars.shadow.md,
 });
 export const listboxTone = styleVariants({
-  default: { borderColor: vars.color.border, background: vars.color.surface, color: vars.color.textPrimary },
-  inverse: { borderColor: vars.color.navigationBorder, background: vars.color.navigationSurface, color: vars.color.textInverse },
+  default: {
+    borderColor: vars.color.border,
+    background: vars.color.surface,
+    color: vars.color.textPrimary,
+  },
+  inverse: {
+    borderColor: vars.color.navigationBorder,
+    background: vars.color.navigationSurface,
+    color: vars.color.textInverse,
+  },
 });
 export const option = style({
   minWidth: 0,
@@ -98,9 +125,28 @@ export const option = style({
   fontWeight: vars.font.weight.medium,
   textOverflow: "ellipsis",
   whiteSpace: "nowrap",
-  selectors: { "&[aria-disabled='true']": { cursor: "not-allowed", opacity: 0.5 } },
+  selectors: {
+    "&[aria-disabled='true']": { cursor: "not-allowed", opacity: 0.5 },
+  },
 });
 export const optionActive = styleVariants({
   default: { background: vars.color.surfaceSubtle },
-  inverse: { background: vars.color.navigationBorder, color: vars.color.navigationAccent },
+  inverse: {
+    background: vars.color.navigationBorder,
+    color: vars.color.navigationAccent,
+  },
+});
+export const optionAction = styleVariants({
+  default: {
+    marginTop: vars.space[1],
+    borderTop: `1px solid ${vars.color.border}`,
+    borderRadius: 0,
+    color: vars.color.brand,
+  },
+  inverse: {
+    marginTop: vars.space[1],
+    borderTop: `1px solid ${vars.color.navigationBorder}`,
+    borderRadius: 0,
+    color: vars.color.navigationAccent,
+  },
 });

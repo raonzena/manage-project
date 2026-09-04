@@ -17,7 +17,12 @@ export function Button({
   return (
     <button
       type={type}
-      className={cx(styles.root, styles.tone[tone], styles.size[size], className)}
+      className={cx(
+        styles.root,
+        styles.tone[tone],
+        styles.size[size],
+        className,
+      )}
       {...props}
     />
   );

@@ -3,15 +3,27 @@ import { style, styleVariants } from "@vanilla-extract/css";
 
 export const root = style({
   position: "relative",
+  selectors: {
+    "&[data-open='true']::after": {
+      content: "",
+      position: "absolute",
+      top: "100%",
+      zIndex: 29,
+      width: 200,
+      height: vars.space[2],
+    },
+    "&[data-open='true'][data-align='start']::after": { left: 0 },
+    "&[data-open='true'][data-align='end']::after": { right: 0 },
+  },
 });
 
 export const trigger = style({
+  appearance: "none",
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
   padding: 0,
   border: 0,
-  background: "transparent",
   cursor: "pointer",
 });
 

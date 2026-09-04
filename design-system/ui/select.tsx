@@ -7,6 +7,7 @@ import { cx } from "./utils";
 
 export type SelectOption = {
   disabled?: boolean;
+  onSelect?: () => void;
   label: string;
   value: string;
 };
@@ -22,14 +23,27 @@ type SelectProps = {
   value: string;
 };
 
-export function Select({ disabled = false, label, leading, name, onValueChange, options, tone = "default", value }: SelectProps) {
+export function Select({
+  disabled = false,
+  label,
+  leading,
+  name,
+  onValueChange,
+  options,
+  tone = "default",
+  value,
+}: SelectProps) {
   const [open, setOpen] = useState(false);
-  const selectedIndex = Math.max(options.findIndex((option) => option.value === value), 0);
+  const selectedIndex = Math.max(
+    options.findIndex((option) => option.value === value),
+    0,
+  );
   const [activeIndex, setActiveIndex] = useState(selectedIndex);
   const rootRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const id = useId();
   const labelId = `${id}-label`;
+  const valueId = `${id}-value`;
   const listboxId = `${id}-listbox`;
   const selectedOption = options[selectedIndex];
 
@@ -38,13 +52,21 @@ export function Select({ disabled = false, label, leading, name, onValueChange, 
     function handlePointerDown(event: PointerEvent) {
       if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
     }
+    function handleFocusIn(event: FocusEvent) {
+      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+    }
     document.addEventListener("pointerdown", handlePointerDown);
-    return () => document.removeEventListener("pointerdown", handlePointerDown);
+    document.addEventListener("focusin", handleFocusIn);
+    return () => {
+      document.removeEventListener("pointerdown", handlePointerDown);
+      document.removeEventListener("focusin", handleFocusIn);
+    };
   }, [open]);
 
   function findEnabledIndex(start: number, direction: 1 | -1) {
     for (let offset = 1; offset <= options.length; offset += 1) {
-      const index = (start + direction * offset + options.length) % options.length;
+      const index =
+        (start + direction * offset + options.length) % options.length;
       if (!options[index]?.disabled) return index;
     }
     return start;
@@ -59,7 +81,8 @@ export function Select({ disabled = false, label, leading, name, onValueChange, 
   function selectOption(index: number) {
     const option = options[index];
     if (!option || option.disabled) return;
-    onValueChange(option.value);
+    if (option.onSelect) option.onSelect();
+    else onValueChange(option.value);
     setActiveIndex(index);
     setOpen(false);
     buttonRef.current?.focus();
@@ -70,7 +93,9 @@ export function Select({ disabled = false, label, leading, name, onValueChange, 
     if (event.key === "ArrowDown" || event.key === "ArrowUp") {
       event.preventDefault();
       if (!open) return openListbox();
-      setActiveIndex((current) => findEnabledIndex(current, event.key === "ArrowDown" ? 1 : -1));
+      setActiveIndex((current) =>
+        findEnabledIndex(current, event.key === "ArrowDown" ? 1 : -1),
+      );
       return;
     }
     if (event.key === "Home" || event.key === "End") {
@@ -93,14 +118,20 @@ export function Select({ disabled = false, label, leading, name, onValueChange, 
 
   return (
     <div className={styles.field} ref={rootRef}>
-      <span className={cx(styles.label, styles.labelTone[tone])} id={labelId}>{label}</span>
+      <span className={cx(styles.label, styles.labelTone[tone])} id={labelId}>
+        {label}
+      </span>
       <button
         aria-activedescendant={open ? `${id}-option-${activeIndex}` : undefined}
-        aria-controls={listboxId}
+        aria-controls={open ? listboxId : undefined}
         aria-expanded={open}
         aria-haspopup="listbox"
-        aria-labelledby={labelId}
-        className={cx(styles.control, styles.controlTone[tone], styles.controlLayout[leading ? "withLeading" : "plain"])}
+        aria-labelledby={`${labelId} ${valueId}`}
+        className={cx(
+          styles.control,
+          styles.controlTone[tone],
+          styles.controlLayout[leading ? "withLeading" : "plain"],
+        )}
         disabled={disabled}
         onClick={() => (open ? setOpen(false) : openListbox())}
         onKeyDown={handleKeyDown}
@@ -108,21 +139,41 @@ export function Select({ disabled = false, label, leading, name, onValueChange, 
         role="combobox"
         type="button"
       >
-        {leading ? <span className={styles.leading} aria-hidden="true">{leading}</span> : null}
-        <span className={styles.value}>{selectedOption?.label}</span>
-        <ArrowDownIcon aria-hidden="true" className={cx(styles.chevron, open ? styles.chevronOpen : undefined)} />
+        {leading ? (
+          <span className={styles.leading} aria-hidden="true">
+            {leading}
+          </span>
+        ) : null}
+        <span className={styles.value} id={valueId}>
+          {selectedOption?.label}
+        </span>
+        <ArrowDownIcon
+          aria-hidden="true"
+          className={cx(styles.chevron, open ? styles.chevronOpen : undefined)}
+        />
       </button>
       {open ? (
-        <ul aria-labelledby={labelId} className={cx(styles.listbox, styles.listboxTone[tone])} id={listboxId} role="listbox">
+        <ul
+          aria-labelledby={labelId}
+          className={cx(styles.listbox, styles.listboxTone[tone])}
+          id={listboxId}
+          role="listbox"
+        >
           {options.map((option, index) => (
             <li
               aria-disabled={option.disabled || undefined}
-              aria-selected={option.value === value}
-              className={cx(styles.option, index === activeIndex ? styles.optionActive[tone] : undefined)}
+              aria-selected={!option.onSelect && option.value === value}
+              className={cx(
+                styles.option,
+                option.onSelect ? styles.optionAction[tone] : undefined,
+                index === activeIndex ? styles.optionActive[tone] : undefined,
+              )}
               id={`${id}-option-${index}`}
               key={option.value}
               onClick={() => selectOption(index)}
-              onPointerEnter={() => { if (!option.disabled) setActiveIndex(index); }}
+              onPointerEnter={() => {
+                if (!option.disabled) setActiveIndex(index);
+              }}
               role="option"
             >
               {option.label}
