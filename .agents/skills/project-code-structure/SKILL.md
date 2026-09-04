@@ -38,6 +38,10 @@ Place code by ownership and actual reuse. Keep route implementation close to its
 
 - Keep a type, constant, or helper next to its only consumer while the file remains easy to understand.
 - Extract by responsibility, reuse, or change frequency rather than by line count alone.
+- Keep route files focused on data orchestration and rendering. When multiple formatting or data-derivation helpers accumulate in a `page.tsx` or `layout.tsx`, or they obscure the route's main flow, move them into a focused module in the route's private folder, such as `_dashboard/formatters.ts`.
+- Treat the directory path as part of a module's name. Do not repeat domain context already established by the immediate parent directory: prefer `_dashboard/formatters.ts` over `_dashboard/dashboard-formatters.ts` and `_auth/schema.ts` over `_auth/auth-schema.ts`.
+- Repeat the domain in a filename only when the file is outside that domain directory or when omitting it would make neighboring modules ambiguous.
+- Name extracted helper modules after their responsibility. Do not create generic route-level containers named `functions.ts`, `helpers.ts`, or `utils.ts`.
 - Move substantial static data or configuration into a focused file such as `issue-views.ts` or `navigation-data.ts` when it obscures component rendering.
 - Extract shared domain types into a domain-named module when multiple modules depend on them. Avoid a repository-wide dumping ground named only `types.ts`, `constants.ts`, or `utils.ts`.
 - Keep tiny component prop types in the component file unless another module genuinely imports them.

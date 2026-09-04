@@ -1,0 +1,36 @@
+{
+  "description": "Repository safety and completion checks.",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "^Bash$",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/block_dangerous_commands.py\"",
+            "timeout": 5,
+            "statusMessage": "Checking command safety"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/check_migrations.py\"",
+            "timeout": 10,
+            "statusMessage": "Checking migration immutability"
+          },
+          {
+            "type": "command",
+            "command": "/usr/bin/python3 \"$(git rev-parse --show-toplevel)/.codex/hooks/verify_changes.py\"",
+            "timeout": 180,
+            "statusMessage": "Running repository checks"
+          }
+        ]
+      }
+    ]
+  }
+}
