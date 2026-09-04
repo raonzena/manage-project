@@ -1,14 +1,16 @@
 import { Suspense } from "react";
-import { getCurrentUser, getWorkspaceList } from "@/server/queries/workspaces";
+import type { NavigationWorkspace } from "./navigation-domain";
 import { MobileNavigation } from "./mobile-navigation";
 import { WorkspaceNavigation } from "./workspace-navigation";
 import * as styles from "./navigation.css";
 
-export async function Navigation() {
-  const [workspaces, user] = await Promise.all([
-    getWorkspaceList(),
-    getCurrentUser(),
-  ]);
+export function Navigation({
+  currentUserId,
+  workspaces,
+}: {
+  currentUserId: string;
+  workspaces: NavigationWorkspace[];
+}) {
   if (workspaces.length === 0) return null;
   return (
     <>
@@ -20,7 +22,7 @@ export async function Navigation() {
           }
         >
           <WorkspaceNavigation
-            currentUserId={user.id}
+            currentUserId={currentUserId}
             workspaces={workspaces}
           />
         </Suspense>

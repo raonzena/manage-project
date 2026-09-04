@@ -78,12 +78,36 @@ export const avatar = style({
   placeItems: "center",
   width: 32,
   height: 32,
-  marginLeft: vars.space[1],
   borderRadius: vars.radius.full,
   background: vars.color.navigation,
   color: vars.color.textInverse,
   fontFamily: vars.font.familyMono,
   fontSize: "0.6875rem",
   fontWeight: vars.font.weight.bold,
-  "@media": { [media.compact]: { display: "none" } },
+  selectors: {
+    "&:hover": { background: vars.color.navigationSurface },
+    "&[aria-expanded='true']": {
+      boxShadow: `0 0 0 3px ${vars.color.infoSubtle}`,
+    },
+  },
+});
+
+export const account = style({
+  display: "grid",
+  gap: vars.space[1],
+  padding: `${vars.space[2]} ${vars.space[3]} ${vars.space[3]}`,
+  borderBottom: `1px solid ${vars.color.border}`,
+  marginBottom: vars.space[1],
+});
+
+export const accountLabel = style({
+  color: vars.color.textSecondary,
+  fontSize: vars.font.size.xs,
+});
+
+export const accountName = style({
+  overflow: "hidden",
+  textOverflow: "ellipsis",
+  whiteSpace: "nowrap",
+  fontSize: vars.font.size.sm,
 });
