@@ -2,6 +2,9 @@
 
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { Select } from "@/design-system/ui";
+import { CreateProjectDialog, CreateWorkspaceDialog, type WorkspaceAction } from "./create-dialogs";
 import { isActiveMenu } from "./is-active-menu";
 import {
   getNavigationSelection,
@@ -10,15 +13,19 @@ import {
   type NavigationWorkspace,
 } from "./navigation-domain";
 import * as styles from "./navigation.css";
-import ArrowDown from "@/assets/icons/arrow-down.svg";
 
 export function WorkspaceNavigation({
+  createProjectAction,
+  createWorkspaceAction,
   currentUserId,
   workspaces,
 }: {
+  createProjectAction: WorkspaceAction;
+  createWorkspaceAction: WorkspaceAction;
   currentUserId: string;
   workspaces: NavigationWorkspace[];
 }) {
+  const [createDialog, setCreateDialog] = useState<"project" | "workspace" | null>(null);
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -51,66 +58,42 @@ export function WorkspaceNavigation({
     return `/issues/${viewId}?${params.toString()}`;
   }
 
+  function handleProjectCreated(projectId: string) {
+    setCreateDialog(null);
+    updateSelection(workspace.id, projectId);
+  }
+
   return (
     <div className={styles.hierarchy}>
-      <label className={styles.selector}>
-        <span className={styles.selectorLabel}>Workspace</span>
-        <span className={styles.selectorControl}>
-          <span className={styles.workspaceMark} aria-hidden="true">
+      <Select
+        label="Workspace"
+        leading={
+          <span className={styles.workspaceMark}>
             {workspace.name.slice(0, 2).toUpperCase()}
           </span>
-          <span className={styles.selectorValue}>
-            <strong className={styles.selectorValueTitle}>
-              {workspace.name}
-            </strong>
-          </span>
-          <select
-            className={styles.select}
-            value={workspace.id}
-            onChange={(event) => handleWorkspaceChange(event.target.value)}
-          >
-            {workspaces.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-          <span className={styles.selectorChevron} aria-hidden="true">
-            <ArrowDown className={styles.selectorChevronIcon} />
-          </span>
-        </span>
-      </label>
+        }
+        onValueChange={handleWorkspaceChange}
+        options={[
+          ...workspaces.map((item) => ({ label: item.name, value: item.id })),
+          { label: "+ Create workspace", value: "create-workspace", onSelect: () => setCreateDialog("workspace") },
+        ]}
+        tone="inverse"
+        value={workspace.id}
+      />
 
-      <label className={styles.selector}>
-        <span className={styles.selectorLabel}>Project</span>
-        <span className={styles.selectorControl}>
-          <span
-            className={`${styles.projectMark} ${styles.green}`}
-            aria-hidden="true"
-          />
-          <span className={styles.selectorValue}>
-            <strong className={styles.selectorValueTitle}>
-              {project.name}
-            </strong>
-          </span>
-          <select
-            className={styles.select}
-            value={project.id}
-            onChange={(event) =>
-              updateSelection(workspace.id, event.target.value)
-            }
-          >
-            {workspace.projects.map((item) => (
-              <option key={item.id} value={item.id}>
-                {item.name}
-              </option>
-            ))}
-          </select>
-          <span className={styles.selectorChevron} aria-hidden="true">
-            <ArrowDown className={styles.selectorChevronIcon} />
-          </span>
-        </span>
-      </label>
+      <Select
+        label="Project"
+        leading={<span className={styles.projectMark} />}
+        onValueChange={(projectId) =>
+          updateSelection(workspace.id, projectId)
+        }
+        options={[
+          ...workspace.projects.map((item) => ({ label: item.name, value: item.id })),
+          { label: "+ Create project", value: "create-project", onSelect: () => setCreateDialog("project") },
+        ]}
+        tone="inverse"
+        value={project.id}
+      />
 
       <section
         className={styles.issueSection}
@@ -143,6 +126,19 @@ export function WorkspaceNavigation({
           })}
         </ul>
       </section>
+      {createDialog === "workspace" ? (
+        <CreateWorkspaceDialog action={createWorkspaceAction} onClose={() => setCreateDialog(null)} open />
+      ) : null}
+      {createDialog === "project" ? (
+        <CreateProjectDialog
+          action={createProjectAction}
+          onClose={() => setCreateDialog(null)}
+          onCreated={handleProjectCreated}
+          open
+          workspaceId={workspace.id}
+          workspaceName={workspace.name}
+        />
+      ) : null}
     </div>
   );
 }

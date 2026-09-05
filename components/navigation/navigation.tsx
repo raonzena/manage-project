@@ -2,12 +2,17 @@ import { Suspense } from "react";
 import type { NavigationWorkspace } from "./navigation-domain";
 import { MobileNavigation } from "./mobile-navigation";
 import { WorkspaceNavigation } from "./workspace-navigation";
+import type { WorkspaceAction } from "./create-dialogs";
 import * as styles from "./navigation.css";
 
 export function Navigation({
+  createProjectAction,
+  createWorkspaceAction,
   currentUserId,
   workspaces,
 }: {
+  createProjectAction: WorkspaceAction;
+  createWorkspaceAction: WorkspaceAction;
   currentUserId: string;
   workspaces: NavigationWorkspace[];
 }) {
@@ -22,6 +27,8 @@ export function Navigation({
           }
         >
           <WorkspaceNavigation
+            createProjectAction={createProjectAction}
+            createWorkspaceAction={createWorkspaceAction}
             currentUserId={currentUserId}
             workspaces={workspaces}
           />

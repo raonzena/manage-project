@@ -3,6 +3,7 @@ import { Navigation } from "@/components/navigation";
 import { getCurrentUser, getWorkspaceList } from "@/server/queries/workspaces";
 import { container, main } from "../template.css";
 import { logout } from "./_lib/actions";
+import { createProject, createWorkspace } from "./_lib/workspace-actions";
 
 export default async function AppLayout({
   children,
@@ -22,7 +23,12 @@ export default async function AppLayout({
         user={user}
       />
       <div className={container}>
-        <Navigation currentUserId={user.id} workspaces={workspaces} />
+        <Navigation
+          createProjectAction={createProject}
+          createWorkspaceAction={createWorkspace}
+          currentUserId={user.id}
+          workspaces={workspaces}
+        />
         <main className={main}>{children}</main>
       </div>
     </>

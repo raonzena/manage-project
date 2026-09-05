@@ -2,10 +2,13 @@
 
 import { Button, Input } from "@/design-system/ui";
 import { useActionState } from "react";
-import { createWorkspace, type OnboardingState } from "./actions";
+import {
+  createWorkspace,
+  type WorkspaceActionState,
+} from "../_lib/workspace-actions";
 import * as styles from "./onboarding.css";
 
-const initialState: OnboardingState = {};
+const initialState: WorkspaceActionState = {};
 
 export function OnboardingForm() {
   const [state, action, pending] = useActionState(

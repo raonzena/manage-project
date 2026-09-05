@@ -7,5 +7,10 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
 };
 
 export function Badge({ className, tone = "neutral", ...props }: BadgeProps) {
-  return <span className={cx(styles.root, styles.tone[tone], className)} {...props} />;
+  return (
+    <span
+      className={cx(styles.root, styles.tone[tone], className)}
+      {...props}
+    />
+  );
 }

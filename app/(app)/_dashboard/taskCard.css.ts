@@ -16,12 +16,20 @@ export const taskCard = style({
   minHeight: 128,
   background: vars.color.surface,
   border: `1px solid ${vars.color.border}`,
-  borderLeft: `4px solid ${taskCardVars.accentColor}`,
   borderRadius: vars.radius.md,
   padding: vars.space[4],
   boxShadow: vars.shadow.sm,
   transition: `border-color ${vars.transition.fast}, box-shadow ${vars.transition.fast}`,
   selectors: {
+    "&::before": {
+      content: "",
+      position: "absolute",
+      insetBlock: 0,
+      left: 0,
+      width: 4,
+      background: taskCardVars.accentColor,
+      pointerEvents: "none",
+    },
     "&:hover": {
       borderColor: vars.color.borderPrimary,
       boxShadow: vars.shadow.md,

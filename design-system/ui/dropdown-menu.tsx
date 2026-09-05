@@ -55,6 +55,8 @@ export function DropdownMenu({
   return (
     <div
       className={styles.root}
+      data-align={align}
+      data-open={open}
       ref={rootRef}
       onPointerEnter={() => setOpen(true)}
       onPointerLeave={() => setOpen(false)}
