@@ -3,6 +3,7 @@ name: Deploy Storybook to Vercel
 on:
   pull_request:
     paths:
+      - ".github/workflows/deploy-storybook.yaml"
       - "design-system/**"
       - ".storybook/**"
       - "package.json"
@@ -11,6 +12,7 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/deploy-storybook.yaml"
       - "design-system/**"
       - ".storybook/**"
       - "package.json"
@@ -29,7 +31,7 @@ jobs:
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
 
     steps:
       - uses: actions/checkout@v7
@@ -45,7 +47,11 @@ jobs:
         run: pnpm install --frozen-lockfile
 
       - name: Build Storybook
-        run: pnpm build-storybook
+        run: |
+          pnpm build-storybook
+          mkdir -p .vercel/output
+          mv storybook-static .vercel/output/static
+          printf '{"version":3}\n' > .vercel/output/config.json
 
       - name: Validate Vercel token
         env:
@@ -56,7 +62,7 @@ jobs:
             exit 1
           }
           test -n "$VERCEL_PROJECT_ID" || {
-            echo "::error::VERCEL_PROJECT_ID is missing"
+            echo "::error::VERCEL_STORYBOOK_PROJECT_ID is missing"
             exit 1
           }
           test -n "$VERCEL_TOKEN" || {
@@ -70,7 +76,7 @@ jobs:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
         run: |
           deploy_args=(
-            storybook-static
+            --prebuilt
             --yes
             --archive=tgz
             --token="$VERCEL_TOKEN"
