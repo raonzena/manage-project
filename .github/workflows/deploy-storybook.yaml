@@ -1,0 +1,93 @@
+name: Deploy Storybook to Vercel
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/deploy-storybook.yaml"
+      - "design-system/**"
+      - ".storybook/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/deploy-storybook.yaml"
+      - "design-system/**"
+      - ".storybook/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-storybook-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_STORYBOOK_PROJECT_ID }}
+
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build Storybook
+        run: |
+          pnpm build-storybook
+          mkdir -p .vercel/output
+          mv storybook-static .vercel/output/static
+          printf '{"version":3}\n' > .vercel/output/config.json
+
+      - name: Validate Vercel token
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          test -n "$VERCEL_ORG_ID" || {
+            echo "::error::VERCEL_ORG_ID is missing"
+            exit 1
+          }
+          test -n "$VERCEL_PROJECT_ID" || {
+            echo "::error::VERCEL_STORYBOOK_PROJECT_ID is missing"
+            exit 1
+          }
+          test -n "$VERCEL_TOKEN" || {
+            echo "::error::VERCEL_TOKEN is missing"
+            exit 1
+          }
+
+      - name: Deploy Storybook
+        id: deploy
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          deploy_args=(
+            --prebuilt
+            --yes
+            --archive=tgz
+            --token="$VERCEL_TOKEN"
+          )
+
+          if [ "$GITHUB_REF_NAME" = "$DEFAULT_BRANCH" ]; then
+            deploy_args+=(--prod)
+          fi
+
+          deployment_url="$(pnpm dlx vercel@59.11.7 deploy "${deploy_args[@]}")"
+          echo "url=$deployment_url" >> "$GITHUB_OUTPUT"
+          echo "### Storybook deployment" >> "$GITHUB_STEP_SUMMARY"
+          echo "$deployment_url" >> "$GITHUB_STEP_SUMMARY"
