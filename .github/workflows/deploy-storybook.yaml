@@ -26,6 +26,9 @@ on:
 permissions:
   contents: read
 
+env:
+  HUSKY: "0"
+
 concurrency:
   group: deploy-storybook-${{ github.ref }}
   cancel-in-progress: true

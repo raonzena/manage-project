@@ -3,6 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "prepare": "husky",
+    "lint:staged": "lint-staged",
     "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
@@ -35,10 +37,15 @@
     "@vanilla-extract/vite-plugin": "^5.2.6",
     "eslint": "^9",
     "eslint-config-next": "16.3.3",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.5.0",
     "storybook": "^10.6.0",
     "supabase": "^2.116.0",
     "typescript": "^6.0.3",
     "vitest": "^5.0.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}": "eslint"
   },
   "packageManager": "pnpm@10.33.2"
 }

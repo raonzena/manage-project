@@ -84,11 +84,18 @@ pnpm dev
 | `pnpm build` | 앱 프로덕션 빌드 |
 | `pnpm start` | 빌드한 앱 실행 |
 | `pnpm lint` | ESLint 검사 |
+| `pnpm lint:staged` | 스테이징된 코드 파일의 ESLint 검사 |
 | `pnpm typecheck` | Next.js 라우트 타입 생성 후 TypeScript 검사 |
 | `pnpm test:unit` | 전체 단위 테스트 1회 실행 |
 | `pnpm test:unit:watch` | 파일 변경 시 단위 테스트 재실행 |
 | `pnpm storybook` | Storybook 개발 서버 실행, 포트 6006 |
 | `pnpm build-storybook` | `storybook-static/`에 정적 Storybook 빌드 |
+
+## 커밋 전 검사
+
+[Husky](https://typicode.github.io/husky/get-started.html)와 [lint-staged](https://github.com/lint-staged/lint-staged)를 사용합니다. `pnpm install` 시 `prepare`가 Git 훅을 설정하며, 커밋 시 `.husky/pre-commit`에서 `pnpm lint:staged`를 실행합니다.
+
+스테이징된 JavaScript·TypeScript 파일(`js`, `jsx`, `ts`, `tsx`, `mjs`, `cjs`, `mts`, `cts`)에 ESLint를 실행합니다. 오류가 있으면 커밋이 중단됩니다. 자동 수정은 수행하지 않으며, 대상 파일이 없으면 검사를 건너뜁니다. 전체 타입 검사와 단위 테스트는 CI에서 수행합니다. CI에서는 `HUSKY=0`으로 훅 설치를 비활성화합니다.
 
 ## 단위 테스트
 
