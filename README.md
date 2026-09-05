@@ -24,6 +24,7 @@
 | 스타일 | Vanilla Extract |
 | 인증·데이터베이스 | Supabase Auth, PostgreSQL, Row Level Security(RLS) |
 | 입력 검증 | Zod 4 |
+| 단위 테스트 | Vitest 5, Node 환경 |
 | UI 개발·문서화 | Storybook 10, Next.js Vite 통합, Docs·접근성 애드온 |
 | 패키지 관리 | pnpm 10.33.2 |
 | 배포 | GitHub Actions, Vercel |
@@ -34,7 +35,7 @@
 
 ### 1. 의존성 설치
 
-Node.js 22(Storybook CI 기준)와 pnpm 10.33.2를 준비한 뒤 저장소 루트에서 실행합니다.
+Node.js 22.12 이상인 22 LTS(CI 기준)와 pnpm 10.33.2를 준비한 뒤 저장소 루트에서 실행합니다.
 
 ```bash
 pnpm install --frozen-lockfile
@@ -83,11 +84,32 @@ pnpm dev
 | `pnpm build` | 앱 프로덕션 빌드 |
 | `pnpm start` | 빌드한 앱 실행 |
 | `pnpm lint` | ESLint 검사 |
-| `pnpm exec tsc --noEmit` | TypeScript 타입 검사 |
+| `pnpm typecheck` | Next.js 라우트 타입 생성 후 TypeScript 검사 |
+| `pnpm test:unit` | 전체 단위 테스트 1회 실행 |
+| `pnpm test:unit:watch` | 파일 변경 시 단위 테스트 재실행 |
 | `pnpm storybook` | Storybook 개발 서버 실행, 포트 6006 |
 | `pnpm build-storybook` | `storybook-static/`에 정적 Storybook 빌드 |
 
-현재 `package.json`에 자동 테스트 실행 스크립트는 없습니다.
+## 단위 테스트
+
+Vitest로 다음 핵심 로직을 검증합니다. 테스트는 대상 모듈 옆의 `*.test.ts`에 두며, Supabase 연결이나 환경 변수 없이 Node 환경에서 실행됩니다.
+
+| 테스트 파일 | 검증 범위 |
+| --- | --- |
+| [navigation-domain.test.ts](components/navigation/navigation-domain.test.ts) | 메뉴별 이슈 필터, 마감 시각과 7일 경계, 워크스페이스·프로젝트 선택, 빈 목록 |
+| [schema.test.ts](app/(auth)/_auth/schema.test.ts) | 로그인 입력, 회원가입 비밀번호 규칙, 이름 정규화, 비밀번호 확인 오류 |
+
+날짜 관련 테스트는 시계를 고정하고 테스트마다 복원합니다. 현재 테스트는 단위 테스트이며, 브라우저 상호작용·실제 인증 세션·데이터베이스 연동을 검증하는 E2E 테스트는 포함하지 않습니다.
+
+CI와 동일한 검사를 로컬에서 실행하려면 다음 명령어를 사용합니다.
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test:unit
+```
+
+명령어의 `unit`은 테스트 수준을 나타냅니다. GitHub Actions에서는 lint·타입 검사도 함께 수행하므로 워크플로를 `Lint, Typecheck & Unit Tests`로 표시합니다.
 
 ## 디렉터리 구조
 
@@ -106,18 +128,21 @@ lib/supabase/         # 서버·브라우저 Supabase 클라이언트
 server/queries/      # 사용자, 워크스페이스, 프로젝트, 이슈 조회
 supabase/            # Supabase CLI 설정 및 SQL 마이그레이션
 .storybook/          # Storybook 설정
-.github/workflows/   # 앱·Storybook 배포, PR 자동 생성
+.github/workflows/   # 단위 테스트·정적 검사, 앱·Storybook 배포, PR 자동 생성
 ```
 
 ## 배포 및 PR 자동화
 
 | 워크플로 | 실행 조건 | 동작 |
 | --- | --- | --- |
+| [단위 테스트·정적 검사](.github/workflows/unit-tests.yaml) | 배포 워크플로에서 호출, 수동 실행 | ESLint → 타입 검사 → 단위 테스트 |
 | [앱 배포](.github/workflows/deploy-vercel.yaml) | PR 이벤트, `main` push | PR은 Preview, `main` push는 Production 배포. 소스 브랜치가 `main`인 PR은 제외 |
 | [Storybook 배포](.github/workflows/deploy-storybook.yaml) | 관련 파일 변경을 포함한 PR·`main` push, 수동 실행 | 저장소 기본 브랜치에서 Production, 그 외 Preview 배포 |
 | [PR 자동 생성](.github/workflows/pr-automation.yaml) | `feat/**` 브랜치 push | 기본 브랜치 대상 열린 PR이 없으면 생성하고 push한 사용자를 담당자로 지정 |
 
-Storybook 배포 대상 변경 경로는 `design-system/**`, `.storybook/**`, `package.json`, `pnpm-lock.yaml`, 해당 워크플로 파일입니다. 배포 URL은 GitHub Actions 실행 요약에 표시됩니다.
+앱과 Storybook 배포는 `unit-tests` 잡에서 공통 검사 워크플로를 호출합니다. `needs: unit-tests`로 연결되어 있어 lint·타입 검사·단위 테스트가 모두 통과해야 빌드·배포가 실행됩니다. 검사 잡에는 배포용 Secrets가 필요하지 않습니다.
+
+Storybook 배포 대상 변경 경로는 `design-system/**`, `.storybook/**`, `package.json`, `pnpm-lock.yaml`, `vitest.config.mts`, 단위 테스트·Storybook 배포 워크플로 파일입니다. 배포 URL은 GitHub Actions 실행 요약에 표시됩니다.
 
 GitHub Actions 배포에는 다음 Repository Secrets가 필요합니다.
 

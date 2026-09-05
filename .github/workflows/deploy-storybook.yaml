@@ -5,6 +5,8 @@ on:
   pull_request:
     paths:
       - ".github/workflows/deploy-storybook.yaml"
+      - ".github/workflows/unit-tests.yaml"
+      - "vitest.config.mts"
       - "design-system/**"
       - ".storybook/**"
       - "package.json"
@@ -14,6 +16,8 @@ on:
       - main
     paths:
       - ".github/workflows/deploy-storybook.yaml"
+      - ".github/workflows/unit-tests.yaml"
+      - "vitest.config.mts"
       - "design-system/**"
       - ".storybook/**"
       - "package.json"
@@ -27,7 +31,11 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  unit-tests:
+    uses: ./.github/workflows/unit-tests.yaml
+
   deploy:
+    needs: unit-tests
     runs-on: ubuntu-latest
     env:
       DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
