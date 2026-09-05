@@ -9,8 +9,15 @@ on:
 permissions:
   contents: read
 
+env:
+  HUSKY: "0"
+
 jobs:
+  unit-tests:
+    uses: ./.github/workflows/unit-tests.yaml
+
   deploy:
+    needs: unit-tests
     if: github.event_name == 'push' || github.head_ref != 'main'
     runs-on: ubuntu-latest
 
