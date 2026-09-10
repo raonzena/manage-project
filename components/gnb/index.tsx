@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { DropdownMenu, DropdownMenuItem } from "@/design-system/ui";
 import * as styles from "./gnb.css";
+import { CreateIssueLink } from "./create-issue-link";
 
 type GNBProps = {
   hasWorkspace: boolean;
@@ -27,9 +28,7 @@ export function GNB({ hasWorkspace, logoutAction, user }: GNBProps) {
               <span className={styles.searchLabel}>검색</span>
               <kbd>⌘ K</kbd>
             </button>
-            <button className={styles.create} type="button">
-              + 새 이슈
-            </button>
+            <CreateIssueLink />
           </>
         ) : null}
         <DropdownMenu

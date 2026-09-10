@@ -62,6 +62,8 @@ export const searchLabel = style({
   "@media": { [media.mobile]: { display: "none" } },
 });
 export const create = style({
+  display: "inline-flex",
+  alignItems: "center",
   height: 36,
   paddingInline: vars.space[3],
   border: 0,
