@@ -7,11 +7,11 @@ import * as selectStyles from "@/design-system/ui/select.css";
 export const page = style({
   minHeight: "100%",
   background: vars.color.surface,
-  padding: `${vars.space[8]} ${vars.space[8]} ${vars.space[8]} calc(${vars.space[8]} * 2)`,
+  padding: `${vars.space[8]} calc(${vars.space[8]} * 2)`,
   "@media": {
     [media.tablet]: {
       minHeight: `calc(100dvh - ${vars.height.gnb})`,
-      padding: `${vars.space[6]} ${vars.space[4]} ${vars.space[12]} ${vars.space[8]}`,
+      padding: `${vars.space[6]} ${vars.space[4]} ${vars.space[12]}`,
     },
   },
 });

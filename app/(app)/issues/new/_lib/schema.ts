@@ -13,6 +13,7 @@ export const issueSchema = z.object({
   description: z.string().trim(),
   status: z.enum(["TODO", "IN_PROGRESS", "REVIEW", "DONE"]),
   assigneeId: z.union([z.uuid(), z.literal("")]),
+  dueAt: z.union([z.iso.date("올바른 날짜를 선택해 주세요."), z.literal("")]),
 });
 
-export type IssueActionState = { message?: string; titleError?: string };
+export type IssueActionState = { message?: string; titleError?: string; dueAtError?: string };

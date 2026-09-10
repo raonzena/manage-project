@@ -14,6 +14,7 @@ export async function createIssue(
     return {
       message: "입력 내용을 확인해 주세요.",
       titleError: result.error.flatten().fieldErrors.title?.[0],
+      dueAtError: result.error.flatten().fieldErrors.dueAt?.[0],
     };
   const supabase = await createClient();
   const {
@@ -34,6 +35,7 @@ export async function createIssue(
     status: result.data.status,
     assignee_id: result.data.assigneeId || null,
     reporter_id: user.id,
+    due_at: result.data.dueAt || null,
   });
   if (error)
     return {

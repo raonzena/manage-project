@@ -31,6 +31,7 @@ export function IssueForm({
   );
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [dueAt, setDueAt] = useState("");
   const router = useRouter();
   return (
     <form action={action} className={styles.form} aria-busy={pending}>
@@ -84,6 +85,16 @@ export function IssueForm({
             { value: "", label: "미지정" },
             ...members.map(({ id, name }) => ({ value: id, label: name })),
           ]}
+        />
+        <Input
+          label="마감일"
+          name="dueAt"
+          type="date"
+          max="9999-12-31"
+          value={dueAt}
+          onChange={(event) => setDueAt(event.target.value)}
+          aria-invalid={Boolean(state.dueAtError)}
+          hint={state.dueAtError ?? "선택하지 않으면 마감일 없이 생성됩니다."}
         />
       </fieldset>
       {state.message ? (
