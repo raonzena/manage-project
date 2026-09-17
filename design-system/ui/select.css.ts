@@ -54,7 +54,7 @@ export const controlTone = styleVariants({
   inverse: {
     borderColor: vars.color.navigationBorder,
     background: vars.color.navigationSurface,
-    color: vars.color.textInverse,
+    color: vars.color.textPrimary,
     selectors: {
       "&:hover:not(:disabled)": {
         borderColor: vars.color.navigationTextSecondary,
@@ -112,7 +112,7 @@ export const listboxTone = styleVariants({
   inverse: {
     borderColor: vars.color.navigationBorder,
     background: vars.color.navigationSurface,
-    color: vars.color.textInverse,
+    color: vars.color.textPrimary,
   },
 });
 export const option = style({

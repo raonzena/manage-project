@@ -6,6 +6,7 @@ globalStyle("*, *::before, *::after", {
 });
 
 globalStyle("html", {
+  colorScheme: "dark",
   background: vars.color.canvas,
   minWidth: "320px",
 });
@@ -46,4 +47,10 @@ globalStyle(":focus-visible", {
 
 globalStyle("::selection", {
   background: vars.color.infoSubtle,
+});
+
+globalStyle("*, *::before, *::after", {
+  "@media": {
+    "(prefers-reduced-motion: reduce)": { transition: "none", animation: "none" },
+  },
 });

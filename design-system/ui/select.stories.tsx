@@ -1,3 +1,4 @@
+import { vars } from "@/design-system/styles/theme.css";
 import { useState } from "react";
 import type { Meta, StoryObj } from "@storybook/nextjs-vite";
 import { fn } from "storybook/test";
@@ -13,7 +14,7 @@ const options: SelectOption[] = [
 function SelectExample({ disabled = false, tone = "default" }: { disabled?: boolean; tone?: "default" | "inverse" }) {
   const [value, setValue] = useState("todo");
   return (
-    <div style={{ width: 280, padding: tone === "inverse" ? 24 : 0, background: tone === "inverse" ? "#171717" : undefined }}>
+    <div style={{ width: 280, padding: tone === "inverse" ? 24 : 0, background: tone === "inverse" ? vars.color.navigation : undefined }}>
       <Select disabled={disabled} label="상태" onValueChange={setValue} options={options} tone={tone} value={value} />
     </div>
   );

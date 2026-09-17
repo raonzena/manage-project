@@ -18,7 +18,7 @@ export const tone = styleVariants({
     color: vars.color.textSecondary,
   },
   info: { background: vars.color.infoSubtle, color: vars.color.brandHover },
-  success: { background: vars.color.successSubtle, color: "#15803d" },
-  warning: { background: vars.color.warningSubtle, color: "#b45309" },
-  danger: { background: vars.color.dangerSubtle, color: "#b91c1c" },
+  success: { background: vars.color.successSubtle, color: vars.color.success },
+  warning: { background: vars.color.warningSubtle, color: vars.color.warning },
+  danger: { background: vars.color.dangerSubtle, color: vars.color.danger },
 });

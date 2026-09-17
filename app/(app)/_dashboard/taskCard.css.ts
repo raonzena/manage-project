@@ -6,7 +6,7 @@ const taskCardVars = createThemeContract({ accentColor: null });
 
 export const taskCardTheme = {
   active: createTheme(taskCardVars, { accentColor: vars.color.success }),
-  dueSoon: createTheme(taskCardVars, { accentColor: vars.color.danger }),
+  dueSoon: createTheme(taskCardVars, { accentColor: vars.color.warning }),
   completed: createTheme(taskCardVars, { accentColor: vars.color.success }),
 };
 
@@ -21,15 +21,6 @@ export const taskCard = style({
   boxShadow: vars.shadow.sm,
   transition: `border-color ${vars.transition.fast}, box-shadow ${vars.transition.fast}`,
   selectors: {
-    "&::before": {
-      content: "",
-      position: "absolute",
-      insetBlock: 0,
-      left: 0,
-      width: 4,
-      background: taskCardVars.accentColor,
-      pointerEvents: "none",
-    },
     "&:hover": {
       borderColor: vars.color.borderPrimary,
       boxShadow: vars.shadow.md,
@@ -59,14 +50,14 @@ export const statusDot = style({
   flexShrink: 0,
   borderRadius: vars.radius.full,
   background: taskCardVars.accentColor,
-  boxShadow: `0 0 0 4px color-mix(in srgb, ${taskCardVars.accentColor} 12%, transparent)`,
+
   "@media": { [media.mobile]: { display: "none" } },
 });
 export const count = style({
   display: "block",
   marginTop: vars.space[3],
-  fontFamily: vars.font.familyDisplay,
-  fontSize: "2.25rem",
+  fontFamily: vars.font.familyMono,
+  fontSize: vars.font.size.display,
   lineHeight: 1,
   letterSpacing: "-0.05em",
   "@media": {

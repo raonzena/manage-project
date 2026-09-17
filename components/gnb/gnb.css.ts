@@ -82,7 +82,7 @@ export const avatar = style({
   height: 32,
   borderRadius: vars.radius.full,
   background: vars.color.navigation,
-  color: vars.color.textInverse,
+  color: vars.color.textPrimary,
   fontFamily: vars.font.familyMono,
   fontSize: "0.6875rem",
   fontWeight: vars.font.weight.bold,

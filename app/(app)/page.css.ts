@@ -33,9 +33,9 @@ export const pageTitle = style({
   fontFamily: vars.font.familyDisplay,
   fontSize: vars.font.size.display,
   lineHeight: vars.font.lineHeight.tight,
-  letterSpacing: "-0.045em",
+  letterSpacing: vars.font.letterSpacing.tight,
   "@media": {
-    [media.mobile]: { fontSize: "2rem", letterSpacing: "-0.04em" },
+    [media.mobile]: { fontSize: vars.font.size.xl, letterSpacing: vars.font.letterSpacing.tight },
   },
 });
 export const pageDescription = style({
@@ -55,7 +55,7 @@ export const stats = style({
   gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
   gap: vars.space[4],
   marginBottom: vars.space[6],
-  "@media": { [media.mobile]: { gap: vars.space[3] } },
+  "@media": { [media.mobile]: { gap: vars.space[3], gridTemplateColumns: "1fr" } },
 });
 export const dashboardGrid = style({
   display: "grid",
@@ -74,8 +74,8 @@ export const focusPanel = style({
   background: vars.color.navigation,
   borderRadius: vars.radius.lg,
   padding: vars.space[6],
-  color: vars.color.textInverse,
-  boxShadow: vars.shadow.md,
+  color: vars.color.textPrimary,
+  border: `1px solid ${vars.color.border}`,
 });
 export const sectionHeader = style({
   display: "flex",
@@ -83,6 +83,7 @@ export const sectionHeader = style({
   alignItems: "center",
   gap: vars.space[4],
   padding: vars.space[6],
+  flexWrap: "wrap",
 });
 export const sectionTitle = style({
   margin: 0,
@@ -90,7 +91,7 @@ export const sectionTitle = style({
   fontSize: vars.font.size.lg,
   letterSpacing: "-0.03em",
 });
-export const inverseTitle = style({ color: vars.color.textInverse });
+export const inverseTitle = style({ color: vars.color.textPrimary });
 export const sectionLink = style({
   color: vars.color.brand,
   fontSize: vars.font.size.xs,
@@ -201,7 +202,7 @@ export const activityText = style({
   fontSize: vars.font.size.xs,
   lineHeight: vars.font.lineHeight.relaxed,
 });
-export const activityAuthor = style({ color: vars.color.textInverse });
+export const activityAuthor = style({ color: vars.color.textPrimary });
 export const activityIssue = style({
   color: vars.color.navigationAccent,
   fontFamily: vars.font.familyMono,
@@ -229,7 +230,7 @@ export const onboardingTitle = style({
   fontFamily: vars.font.familyDisplay,
   fontSize: vars.font.size.display,
   lineHeight: vars.font.lineHeight.tight,
-  letterSpacing: "-0.045em",
+  letterSpacing: vars.font.letterSpacing.tight,
 });
 export const onboardingDescription = style({
   margin: `0 0 ${vars.space[4]}`,
