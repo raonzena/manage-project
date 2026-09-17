@@ -13,7 +13,7 @@ export const navigation = style({
   padding: vars.space[3],
   borderRight: `1px solid ${vars.color.navigationBorder}`,
   backgroundColor: vars.color.navigation,
-  color: vars.color.textInverse,
+  color: vars.color.textPrimary,
   "@media": { [media.tablet]: { display: "none" } },
 });
 export const navigationLoading = style({
@@ -76,7 +76,7 @@ export const issueMenuLink = style({
   selectors: {
     "&:hover": {
       background: vars.color.navigationSurface,
-      color: vars.color.textInverse,
+      color: vars.color.textPrimary,
     },
     "&:focus-visible": {
       outline: `2px solid ${vars.color.brand}`,

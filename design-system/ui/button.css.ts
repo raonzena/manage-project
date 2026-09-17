@@ -38,9 +38,10 @@ export const tone = styleVariants({
     },
   },
   danger: {
-    background: vars.color.danger,
-    color: vars.color.textInverse,
-    selectors: { "&:hover:not(:disabled)": { background: "#dc2626" } },
+    background: vars.color.dangerSubtle,
+    borderColor: vars.color.danger,
+    color: vars.color.danger,
+    selectors: { "&:hover:not(:disabled)": { background: `color-mix(in srgb, ${vars.color.danger} 18%, ${vars.color.dangerSubtle})` } },
   },
   ghost: {
     background: "transparent",

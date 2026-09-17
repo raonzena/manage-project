@@ -17,7 +17,7 @@ export const story = style({
   padding: vars.space[8],
   overflow: "hidden",
   background: vars.color.navigation,
-  color: vars.color.textInverse,
+  color: vars.color.textPrimary,
   "@media": { [media.tablet]: { display: "none" } },
 });
 
@@ -45,7 +45,7 @@ export const brandMark = style({
 export const storyContent = style({ margin: "auto", maxWidth: 540 });
 export const storyKicker = style({
   marginBottom: vars.space[4],
-  color: "#64d9a1",
+  color: vars.color.navigationAccent,
   fontFamily: vars.font.familyMono,
   fontSize: vars.font.size.xs,
   fontWeight: vars.font.weight.bold,
@@ -54,19 +54,19 @@ export const storyKicker = style({
 });
 export const storyTitle = style({
   marginBottom: vars.space[6],
-  fontSize: "clamp(3rem, 5vw, 5.5rem)",
-  lineHeight: 0.98,
-  letterSpacing: "-0.065em",
+  fontSize: "clamp(2.5rem, 4vw, 4rem)",
+  lineHeight: vars.font.lineHeight.tight,
+  letterSpacing: vars.font.letterSpacing.tight,
 });
 export const storyDescription = style({
   marginBottom: vars.space[10],
-  color: "#b6b6b2",
+  color: vars.color.navigationText,
   fontSize: vars.font.size.md,
   lineHeight: vars.font.lineHeight.relaxed,
 });
 export const storyNote = style({
   margin: 0,
-  color: "#72726f",
+  color: vars.color.navigationTextSecondary,
   fontFamily: vars.font.familyMono,
   fontSize: "0.6875rem",
 });
@@ -104,7 +104,7 @@ export const eyebrow = style({
 });
 export const title = style({
   marginBottom: vars.space[3],
-  fontSize: "2.25rem",
+  fontSize: vars.font.size.display,
   lineHeight: vars.font.lineHeight.tight,
   letterSpacing: "-0.05em",
   "@media": { [media.mobile]: { fontSize: "2rem" } },
