@@ -90,6 +90,11 @@ pnpm dev
 | `pnpm test:unit:watch` | 파일 변경 시 단위 테스트 재실행 |
 | `pnpm storybook` | Storybook 개발 서버 실행, 포트 6006 |
 | `pnpm build-storybook` | `storybook-static/`에 정적 Storybook 빌드 |
+| `pnpm figma:check` | Code Connect 템플릿 타입 검사와 공식 CLI 파싱 |
+| `pnpm figma:preview` | 토큰을 사용해 Figma 코드 스니펫 미리보기 |
+| `pnpm figma:publish` | 토큰을 사용해 Code Connect 매핑 게시 |
+
+Badge·Button·Input·Card의 Figma 매핑과 게시 절차는 [Code Connect 문서](design-system/figma/README.md)에 정리되어 있습니다. 원격 등록 상태와 아직 연결하지 않은 컴포넌트도 해당 문서에서 확인할 수 있습니다.
 
 ## 커밋 전 검사
 
@@ -131,6 +136,7 @@ design-system/
   icons/              # 공통 아이콘
   styles/             # 테마, 전역 스타일, 미디어 쿼리
   ui/                 # 공통 UI 컴포넌트와 Storybook 스토리
+  figma/              # Code Connect 템플릿과 문자열 출력 회귀 테스트
 lib/supabase/         # 서버·브라우저 Supabase 클라이언트
 server/queries/      # 사용자, 워크스페이스, 프로젝트, 이슈 조회
 supabase/            # Supabase CLI 설정 및 SQL 마이그레이션
