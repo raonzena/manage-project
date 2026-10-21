@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "types": ["@figma/code-connect/figma-types", "node"]
+  },
+  "include": ["design-system/figma/**/*.figma.ts"],
+  "exclude": ["node_modules"]
+}

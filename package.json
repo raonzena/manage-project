@@ -13,7 +13,10 @@
     "test:unit": "vitest run",
     "test:unit:watch": "vitest",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "figma:check": "tsc --noEmit -p tsconfig.figma.json && figma connect parse --exit-on-unreadable-files --skip-update-check --outFile /dev/null",
+    "figma:preview": "figma connect preview --skip-update-check",
+    "figma:publish": "figma connect publish --exit-on-unreadable-files --skip-update-check"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.5",
@@ -26,6 +29,7 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@figma/code-connect": "2.0.2",
     "@storybook/addon-a11y": "^10.6.0",
     "@storybook/addon-docs": "^10.6.0",
     "@storybook/nextjs-vite": "^10.6.0",

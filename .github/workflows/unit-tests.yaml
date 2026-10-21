@@ -33,5 +33,8 @@ jobs:
       - name: Type check
         run: pnpm typecheck
 
+      - name: Check Code Connect templates
+        run: pnpm figma:check
+
       - name: Unit tests
         run: pnpm test:unit

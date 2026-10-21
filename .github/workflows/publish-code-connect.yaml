@@ -1,0 +1,45 @@
+name: Publish Figma Code Connect
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  HUSKY: "0"
+
+concurrency:
+  group: publish-code-connect
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Check Code Connect templates
+        run: pnpm figma:check
+
+      - name: Publish Code Connect templates
+        env:
+          FIGMA_ACCESS_TOKEN: ${{ secrets.FIGMA_ACCESS_TOKEN }}
+        run: |
+          test -n "$FIGMA_ACCESS_TOKEN" || {
+            echo "::error::FIGMA_ACCESS_TOKEN is missing"
+            exit 1
+          }
+          pnpm figma:publish
